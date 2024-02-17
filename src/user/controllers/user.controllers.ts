@@ -1,10 +1,7 @@
-//fer estuvo aqui
-
-import { request } from "http";
 import fastify from "fastify";
 import { FastifyReply, FastifyRequest } from "fastify";
 import UserModule from "../../modules/user.module";
-import User from "../models/user";
+
 
 const userModule = new UserModule();
 
@@ -34,8 +31,16 @@ const test3 = async (request: FastifyRequest, reply: FastifyReply) => {
 	}
 };
 
-const createUser = async (request: FastifyRequest, reply: FastifyReply) => {
-	userModule.createUser(request, reply);
+const test4 = async (request: FastifyRequest, reply: FastifyReply) => {
+	userModule.test(request, reply);
 };
 
-export { test1, test2, test3, createUser };
+const createUser = async (request: FastifyRequest, reply: FastifyReply) => {
+	await userModule.createUser(request, reply);
+};
+
+const verifyUser = async (request: FastifyRequest, reply: FastifyReply) => {
+	await userModule.verifyUser(request, reply);
+}
+
+export { test1, test2, test3, createUser ,test4, verifyUser};
