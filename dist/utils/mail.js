@@ -59,7 +59,7 @@ const emailRegistro = (datos) => __awaiter(void 0, void 0, void 0, function* () 
                         <td style="padding:0 0 0 0;">
                           <h1 align="center" style="font-size:24px;margin:0 0 20px 0;font-family: Arial, sans-serif;color:#01BBF1;  font-size: 30px;text-shadow: 2px 2px 4px #000000; filter: drop-shadow(0 0 0.75rem rgb(1, 67, 248));">Verify your account </h1>
                           <h1 style="margin: 0px; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: arial,helvetica,sans-serif; font-size: 16px;color: #07adfa;">
-                            <div><strong>Use the following link to verify your account:<a href="${process.env.BACKEND_URL}/auth/confirm/${token}" style="font-size: 30px; margin:0 0 12px 0;font-size:16px;line-height:24px;font-family: Arial, sans-serif;color:#07adfa; filter: drop-shadow(0 0 0.75rem rgb(1, 17, 61));"> Verify your account</a>  </strong></div>
+                            <div><strong>Use the following link to verify your account:<a href="${process.env.BACKEND_URL}/api/v1/user/verify/${token}" style="font-size: 30px; margin:0 0 12px 0;font-size:16px;line-height:24px;font-family: Arial, sans-serif;color:#07adfa; filter: drop-shadow(0 0 0.75rem rgb(1, 17, 61));"> Verify your account</a>  </strong></div>
                           </h1>
                           <br>
                           <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family: Arial, sans-serif;color:#0c0c0c;">if you didnt create this account, pls dont pay attention to this message</p>
