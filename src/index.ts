@@ -2,8 +2,8 @@ import dotenv from "dotenv";
 import fastify from "fastify";
 import { FastifyReply, FastifyRequest } from "fastify";
 import db from "./config/database";
-import {userRouter} from "./user/routes/user.routes";
-import productsRouter from "./user/routes/product.routes";
+import productsRouter from "./routes/product.routes";
+import userRouter from "./routes/user.routes";
 
 dotenv.config({ path: ".env" });
 
