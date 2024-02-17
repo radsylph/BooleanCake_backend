@@ -3,12 +3,14 @@ import fastify from "fastify";
 import { FastifyReply, FastifyRequest } from "fastify";
 import db from "./config/database";
 import userRouter from "./user/routes/user.routes";
+import productsRouter from "./user/routes/product.routes";
 
 dotenv.config({ path: ".env" });
 
 const server = fastify({ logger: true });
 
 server.register(userRouter, { prefix: "api/v1/user" });
+server.register(productsRouter, { prefix: "api/v1/product" });
 
 const port: number = process.env.PORT as unknown as number;
 

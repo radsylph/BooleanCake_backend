@@ -16,9 +16,11 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const fastify_1 = __importDefault(require("fastify"));
 const database_1 = __importDefault(require("./config/database"));
 const user_routes_1 = __importDefault(require("./user/routes/user.routes"));
+const product_routes_1 = __importDefault(require("./user/routes/product.routes"));
 dotenv_1.default.config({ path: ".env" });
 const server = (0, fastify_1.default)({ logger: true });
 server.register(user_routes_1.default, { prefix: "api/v1/user" });
+server.register(product_routes_1.default, { prefix: "api/v1/product" });
 const port = process.env.PORT;
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
