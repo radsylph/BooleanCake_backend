@@ -45,7 +45,6 @@ class UserModule {
 	test(request: FastifyRequest, reply: FastifyReply) {
 		try {
 			const params = request.params;
-
 			return reply.code(200).send({ message: "UserModule works" });	
 		} catch (error) {
 			return reply.code(500).send({ message: "Error testing UserModule", error });
