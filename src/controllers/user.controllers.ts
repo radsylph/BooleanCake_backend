@@ -1,7 +1,6 @@
 import fastify from "fastify";
 import { FastifyReply, FastifyRequest } from "fastify";
-import UserModule from "../../modules/user.module";
-
+import UserModule from "../modules/user.module";
 
 const userModule = new UserModule();
 
@@ -41,6 +40,6 @@ const createUser = async (request: FastifyRequest, reply: FastifyReply) => {
 
 const verifyUser = async (request: FastifyRequest, reply: FastifyReply) => {
 	await userModule.verifyUser(request, reply);
-}
+};
 
-export { test1, test2, test3, createUser ,test4, verifyUser};
+export { test1, test2, test3, createUser, test4, verifyUser };

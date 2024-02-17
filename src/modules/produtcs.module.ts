@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { FastifyReply, FastifyRequest } from "fastify";
 import jwt from "jsonwebtoken";
-import Products from "../user/models/products";
+import Products from "../models/products";
 import { generateJWT, generateToken1 } from "../utils/generateToken";
 import { emailRegistro, emailReset } from "../utils/mail";
 

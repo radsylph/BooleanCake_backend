@@ -18,7 +18,7 @@ import {
 // 	fastify.post("/create", createproducts);
 // };
 
-export default function productsRouter(
+function productsRouter(
 	fastify: FastifyInstance,
 	opts: FastifyPluginOptions,
 	done: () => void,
@@ -49,3 +49,5 @@ export default function productsRouter(
 
 	done();
 }
+
+export default productsRouter;

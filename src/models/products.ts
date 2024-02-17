@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
-import { ProductsInterface } from "../../interfaces/products.interface";
+import { ProductsInterface } from "../interfaces/products.interface";
 
 const ProductsSchema = new mongoose.Schema<ProductsInterface>({
 	storage: {
