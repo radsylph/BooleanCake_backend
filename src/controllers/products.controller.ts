@@ -1,8 +1,8 @@
 import { request } from "http";
 import fastify from "fastify";
 import { FastifyReply, FastifyRequest } from "fastify";
-import productsModule from "../../modules/produtcs.module";
 import Products from "../models/products";
+import productsModule from "../modules/produtcs.module";
 
 const ProductsModule = new productsModule();
 
