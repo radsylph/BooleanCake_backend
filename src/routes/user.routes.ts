@@ -11,15 +11,11 @@ import {
 	test1,
 	test2,
 	test3,
-	test4
+	test4,
+	verifyUser,
 } from "../controllers/user.controllers";
 
-// export  const userRouter = async (fastify: FastifyInstance, options: any) => {
-// 	fastify.post("/test", test1).get("/test", test2).get("/test/:id", test3);
-// 	fastify.post("/create", createUser);
-// };
-
-export function userRouter(
+function userRouter(
 	fastify: FastifyInstance,
 	opts: FastifyPluginOptions,
 	done: () => void,
@@ -54,5 +50,13 @@ export function userRouter(
 		handler: test4,
 	});
 
+	fastify.route({
+		method: "GET",
+		url: "/verify/:token",
+		handler: verifyUser,
+	});
+
 	done();
 }
+
+export default userRouter;
