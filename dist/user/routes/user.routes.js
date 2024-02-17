@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.userRouter = void 0;
 const user_controllers_1 = require("../controllers/user.controllers");
-// export const router = async (fastify: FastifyInstance, options: any) => {
+// export  const userRouter = async (fastify: FastifyInstance, options: any) => {
 // 	fastify.post("/test", test1).get("/test", test2).get("/test/:id", test3);
 // 	fastify.post("/create", createUser);
 // };
@@ -26,6 +27,11 @@ function userRouter(fastify, opts, done) {
         url: "/create",
         handler: user_controllers_1.createUser,
     });
+    fastify.route({
+        method: "GET",
+        url: "/test4",
+        handler: user_controllers_1.test4,
+    });
     done();
 }
-exports.default = userRouter;
+exports.userRouter = userRouter;

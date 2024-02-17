@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const fastify_1 = __importDefault(require("fastify"));
 const database_1 = __importDefault(require("./config/database"));
-// import userRouter from "./user/routes/user.routes";
 const user_routes_1 = __importDefault(require("./user/routes/user.routes"));
 dotenv_1.default.config({ path: ".env" });
 const server = (0, fastify_1.default)({ logger: true });

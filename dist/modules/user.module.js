@@ -27,14 +27,41 @@ class UserModule {
                 newUser.token = token;
                 yield newUser.save();
                 return reply
-                    .code(202)
-                    .send({ message: "User created", data: { newUser, token } });
+                    .code(200)
+                    .send({ message: "User created", data: newUser });
             }
             catch (error) {
                 console.log(error);
                 return reply.code(500).send({ message: "Error creating user", error });
             }
         });
+    }
+    verifyUser(request, reply) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const token = request.params;
+            try {
+                const user = yield user_1.default.findOne({ token: token });
+                if (!user) {
+                    return reply.code(404).send({ message: "User not found" });
+                }
+                user.token = null;
+                user.verify = true;
+                yield user.save();
+                return reply.code(200).send({ message: "User verified" });
+            }
+            catch (error) {
+                return reply.code(500).send({ message: "Error verifying user", error });
+            }
+        });
+    }
+    test(request, reply) {
+        try {
+            const params = request.params;
+            return reply.code(200).send({ message: "UserModule works" });
+        }
+        catch (error) {
+            return reply.code(500).send({ message: "Error testing UserModule", error });
+        }
     }
 }
 exports.default = UserModule;
