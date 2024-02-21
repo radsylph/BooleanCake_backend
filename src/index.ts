@@ -1,3 +1,6 @@
+import cookie from "@fastify/cookie";
+import { fastifyCookie } from "@fastify/cookie";
+import { fastifySession } from "@fastify/session";
 import dotenv from "dotenv";
 import fastify from "fastify";
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -9,10 +12,20 @@ dotenv.config({ path: ".env" });
 
 const server = fastify({ logger: true });
 
+server.register(fastifyCookie, {
+	secret: process.env.SECRET_COOKIE as unknown as string,
+});
+
+server.register(fastifySession, {
+	cookieName: "sessionId",
+	secret: process.env.SECRET_COOKIE as unknown as string,
+});
+
 server.register(userRouter, { prefix: "api/v1/user" });
 server.register(productsRouter, { prefix: "api/v1/product" });
 
 const port: number = process.env.PORT as unknown as number;
+const secret: string = process.env.SECRET_COOKIE as unknown as string;
 
 const start = async () => {
 	try {
