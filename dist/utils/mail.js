@@ -13,11 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.emailReset = exports.emailRegistro = void 0;
-const dotenv_1 = __importDefault(require("dotenv"));
-const nodemailer_1 = __importDefault(require("nodemailer"));
-dotenv_1.default.config({ path: ".env" });
+const dotenv_1 = __importDefault(require("dotenv")); // se importa el modulo de dotenv
+const nodemailer_1 = __importDefault(require("nodemailer")); // se importa el modulo de nodemailer
+dotenv_1.default.config({ path: ".env" }); // se cargan las variables de entorno
 const emailRegistro = (datos) => __awaiter(void 0, void 0, void 0, function* () {
+    // se crea la funcion para enviar el email de registro
     const transport = nodemailer_1.default.createTransport({
+        // se crea el transporte del email, en donde se pone el servicio y la autenticacion
         service: "gmail",
         auth: {
             user: process.env.APP_USER,
@@ -25,13 +27,15 @@ const emailRegistro = (datos) => __awaiter(void 0, void 0, void 0, function* () 
         },
     });
     console.log(`daticos ${datos}`);
-    const { email, nombre, token } = datos;
+    const { email, nombre, token } = datos; // se descompone el objeto de los datos del email
     try {
+        // try del email de registro
         yield transport.sendMail({
+            // se envia el email
             from: process.env.APP_USER,
             to: email,
             subject: "Confirm your account",
-            html: `<!DOCTYPE html>
+            html: `<!DOCTYPE html> 
       <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com馃彚office">
       <head>
         <meta charset="UTF-8">
@@ -80,7 +84,9 @@ const emailRegistro = (datos) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.emailRegistro = emailRegistro;
 const emailReset = (datos) => __awaiter(void 0, void 0, void 0, function* () {
+    // se crea la funcion para enviar el email de resetear la contrase帽a
     const transport = nodemailer_1.default.createTransport({
+        // se crea el transporte del email, en donde se pone el servicio y la autenticacion
         service: "gmail",
         auth: {
             user: process.env.APP_USER,
@@ -89,6 +95,7 @@ const emailReset = (datos) => __awaiter(void 0, void 0, void 0, function* () {
     });
     const { email, nombre, token } = datos;
     try {
+        // try del email de resetear la contraseña
         yield transport.sendMail({
             from: "LuckyNotes@gmail.com",
             to: email,

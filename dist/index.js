@@ -19,22 +19,25 @@ const fastify_1 = __importDefault(require("fastify"));
 const database_1 = __importDefault(require("./config/database"));
 const product_routes_1 = __importDefault(require("./routes/product.routes"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
-dotenv_1.default.config({ path: ".env" });
-const server = (0, fastify_1.default)({ logger: true });
+dotenv_1.default.config({ path: ".env" }); // se cargan las variables de entorno
+const server = (0, fastify_1.default)({ logger: true }); // se crea el servidor y se pone el logger
 server.register(cookie_1.fastifyCookie, {
-    secret: process.env.SECRET_COOKIE,
+    // se registra el plugin de las cookies
+    secret: process.env.SECRET_COOKIE, // se pone el secreto de las cookies
 });
 server.register(session_1.fastifySession, {
-    cookieName: "sessionId",
-    secret: process.env.SECRET_COOKIE,
+    // se registra el plugin de las sesiones
+    cookieName: "sessionId", // se pone el nombre de la cookie (no es obligatoriamente le nombre de la cookie que va a usar el navegador para la autentificacion)
+    secret: process.env.SECRET_COOKIE, // se pone el secreto de la cookie
 });
-server.register(user_routes_1.default, { prefix: "api/v1/user" });
-server.register(product_routes_1.default, { prefix: "api/v1/product" });
-const port = process.env.PORT;
-const secret = process.env.SECRET_COOKIE;
+server.register(user_routes_1.default, { prefix: "api/v1/user" }); // se registra el router de los usuarios con le prefijo
+server.register(product_routes_1.default, { prefix: "api/v1/product" }); // se registra el router de los productos con le prefijo
+const port = process.env.PORT; // se obtiene el puerto del archivo
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
+    // se crea la funcion asincrona para iniciar el servidor
     try {
         try {
+            // el try de la base de datos
             database_1.default.on("error", (err) => {
                 console.error("Error Connecting to the database because :", err);
             });
@@ -47,17 +50,20 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
         }
     }
     catch (error) {
+        // el catch de la base de datos
         console.log(error);
         process.exit(1);
     }
     try {
+        // el try del servidor
         yield server.listen({ port: port || 3000, host: "0.0.0.0" }, (address) => {
             server.log.info(`server listening on ${address}`);
         });
     }
     catch (error) {
+        // el catch del servidor
         server.log.error(error);
         process.exit(1);
     }
 });
-start();
+start(); // se inicia el servidor
