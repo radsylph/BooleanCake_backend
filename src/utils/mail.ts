@@ -1,16 +1,12 @@
-import dotenv from "dotenv";
-import nodemailer from "nodemailer";
+import dotenv from "dotenv"; // se importa el modulo de dotenv
+import nodemailer from "nodemailer"; // se importa el modulo de nodemailer
+import { EmailInterface } from "../interfaces/email.interface"; // se importa la interfaz de los datos del email
+dotenv.config({ path: ".env" }); // se cargan las variables de entorno
 
-dotenv.config({ path: ".env" });
-
-interface Datos {
-	email: string;
-	nombre: string;
-	token: string | null;
-}
-
-const emailRegistro = async (datos: Datos) => {
+const emailRegistro = async (datos: EmailInterface) => {
+	// se crea la funcion para enviar el email de registro
 	const transport = nodemailer.createTransport({
+		// se crea el transporte del email, en donde se pone el servicio y la autenticacion
 		service: "gmail",
 		auth: {
 			user: process.env.APP_USER,
@@ -20,13 +16,15 @@ const emailRegistro = async (datos: Datos) => {
 
 	console.log(`daticos ${datos}`);
 
-	const { email, nombre, token } = datos;
+	const { email, nombre, token } = datos; // se descompone el objeto de los datos del email
 	try {
+		// try del email de registro
 		await transport.sendMail({
+			// se envia el email
 			from: process.env.APP_USER,
 			to: email,
 			subject: "Confirm your account",
-			html: `<!DOCTYPE html>
+			html: `<!DOCTYPE html> 
       <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com馃彚office">
       <head>
         <meta charset="UTF-8">
@@ -73,8 +71,10 @@ const emailRegistro = async (datos: Datos) => {
 	}
 };
 
-const emailReset = async (datos: Datos) => {
+const emailReset = async (datos: EmailInterface) => {
+	// se crea la funcion para enviar el email de resetear la contrase帽a
 	const transport = nodemailer.createTransport({
+		// se crea el transporte del email, en donde se pone el servicio y la autenticacion
 		service: "gmail",
 		auth: {
 			user: process.env.APP_USER,
@@ -84,6 +84,7 @@ const emailReset = async (datos: Datos) => {
 
 	const { email, nombre, token } = datos;
 	try {
+		// try del email de resetear la contraseña
 		await transport.sendMail({
 			from: "LuckyNotes@gmail.com",
 			to: email,
