@@ -131,8 +131,6 @@ class UserModule {
 		}
 	}
 
-	
-
 	test(request: FastifyRequest, reply: FastifyReply) {
 		try {
 			const params = request.params;
