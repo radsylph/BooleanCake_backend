@@ -8,10 +8,16 @@ import {
 } from "fastify";
 import {
 	createUser,
+	getUserInfo,
+	logOutUser,
+	loginUser,
 	test1,
 	test2,
 	test3,
 	test4,
+	test5,
+	test6,
+	test7,
 	verifyUser,
 } from "../controllers/user.controllers";
 
@@ -20,6 +26,38 @@ function userRouter(
 	opts: FastifyPluginOptions,
 	done: () => void,
 ) {
+	fastify.register(async (fastify, opts, done) => {
+		await fastify.addHook("preHandler", async (request, reply) => {
+			const sessionCookie = request.cookies.session;
+			if (
+				!sessionCookie ||
+				sessionCookie === "" ||
+				request.cookies.session === ""
+			) {
+				reply.code(401).send({ message: "No autorizado" });
+			}
+		});
+		fastify.route({
+			method: "GET",
+			url: "/cookie",
+			handler: test6,
+		});
+
+		fastify.route({
+			method: "GET",
+			url: "/info",
+			handler: getUserInfo,
+		});
+
+		fastify.route({
+			method: "DELETE",
+			url: "/logout",
+			handler: logOutUser,
+		});
+
+		done();
+	});
+
 	fastify.route({
 		method: "POST",
 		url: "/test",
@@ -54,6 +92,25 @@ function userRouter(
 		method: "GET",
 		url: "/verify/:token",
 		handler: verifyUser,
+	});
+
+	fastify.route({
+		method: "POST",
+		url: "/cookie",
+		handler: test5,
+	});
+
+	// Mover la ruta "/cookie" (DELETE) fuera del bloque fastify.register
+	fastify.route({
+		method: "DELETE",
+		url: "/cookie",
+		handler: test7,
+	});
+
+	fastify.route({
+		method: "POST",
+		url: "/login",
+		handler: loginUser,
 	});
 
 	done();
