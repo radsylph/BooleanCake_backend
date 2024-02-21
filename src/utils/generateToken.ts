@@ -10,9 +10,13 @@ const generateToken1 = (): string => {
 };
 
 const generateJWT = (id: string): string => {
-	return jwt.sign({ id }, process.env.JWT_SECRET as string, {
+	return jwt.sign({ id }, process.env.SECRET_COOKIE as string, {
 		expiresIn: process.env.JWT_EXPIRE,
 	});
+};
+
+const decryptToken = (token: string) => {
+	return jwt.verify(token, process.env.SECRET_COOKIE);
 };
 
 /*const generateToken2 = () => {
@@ -21,4 +25,4 @@ const generateJWT = (id: string): string => {
   return x;
 };*/
 
-export { generateToken1, generateJWT };
+export { generateToken1, generateJWT, decryptToken };
