@@ -4,7 +4,11 @@ import { RouteGenericInterface } from "fastify/types/route";
 import jwt from "jsonwebtoken";
 import { UserInterface } from "../interfaces";
 import User from "../models/user";
-import { generateJWT, generateToken1 } from "../utils/generateToken";
+import {
+	decryptToken,
+	generateJWT,
+	generateToken1,
+} from "../utils/generateToken";
 import { emailRegistro, emailReset } from "../utils/mail";
 
 class UserModule {
@@ -64,6 +68,70 @@ class UserModule {
 			return reply.code(500).send({ message: "Error verifying user", error });
 		}
 	}
+
+	async loginUser(request: FastifyRequest, reply: FastifyReply) {
+		const user_info: any = request.body;
+		console.log(user_info);
+		try {
+			const ExistingUser = await User.findOne({ email: user_info.email });
+			if (!ExistingUser) {
+				return reply.code(404).send({ message: "User not found" });
+			}
+			const validPassword = await bcrypt.compare(
+				user_info.password,
+				ExistingUser.password,
+			);
+			if (!validPassword) {
+				return reply.code(500).send({ message: "Invalid password" });
+			}
+			if (!ExistingUser.verify) {
+				return reply.code(500).send({ message: "User not verified" });
+			}
+			const token: string = generateJWT(ExistingUser._id as unknown as string);
+			reply.setCookie("session", token, {
+				path: "/",
+				secure: false, //cambiar si vamos a usar https
+				httpOnly: true,
+				expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000),
+				sameSite: "strict",
+			});
+			return reply.code(200).send({
+				message: "User logged in",
+				user: ExistingUser,
+			});
+		} catch (error) {
+			return reply.code(500).send({ message: "Error logging in", error });
+		}
+	}
+
+	async getUserInfo(request: FastifyRequest, reply: FastifyReply) {
+		const cookieSession = request.cookies.session;
+		try {
+			const user_id: any = decryptToken(cookieSession);
+			console.log(user_id.id);
+			const userInfo = await User.findOne({ _id: user_id.id });
+			if (!userInfo) {
+				return reply.code(404).send({ message: "User not found" });
+			}
+			return reply.code(200).send({ message: "User found", userInfo });
+		} catch (error) {
+			return reply.code(500).send({ message: "Error getting user", error });
+		}
+	}
+
+	async logOutUser(request: FastifyRequest, reply: FastifyReply) {
+		try {
+			reply.setCookie("session", "", {
+				expires: new Date(0),
+				path: "/", // Asegúrate de especificar la misma ruta que usaste cuando creaste la cookie
+			});
+			return reply.code(200).send({ message: "User logged out" });
+		} catch (error) {
+			return reply.code(500).send({ message: "Error logging out", error });
+		}
+	}
+
+	
 
 	test(request: FastifyRequest, reply: FastifyReply) {
 		try {
