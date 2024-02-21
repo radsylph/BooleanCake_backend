@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateJWT = exports.generateToken1 = void 0;
+exports.decryptToken = exports.generateJWT = exports.generateToken1 = void 0;
 const crypto_1 = __importDefault(require("crypto"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -15,8 +15,12 @@ const generateToken1 = () => {
 };
 exports.generateToken1 = generateToken1;
 const generateJWT = (id) => {
-    return jsonwebtoken_1.default.sign({ id }, process.env.JWT_SECRET, {
+    return jsonwebtoken_1.default.sign({ id }, process.env.SECRET_COOKIE, {
         expiresIn: process.env.JWT_EXPIRE,
     });
 };
 exports.generateJWT = generateJWT;
+const decryptToken = (token) => {
+    return jsonwebtoken_1.default.verify(token, process.env.SECRET_COOKIE);
+};
+exports.decryptToken = decryptToken;

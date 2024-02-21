@@ -12,6 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const cookie_1 = require("@fastify/cookie");
+const session_1 = require("@fastify/session");
 const dotenv_1 = __importDefault(require("dotenv"));
 const fastify_1 = __importDefault(require("fastify"));
 const database_1 = __importDefault(require("./config/database"));
@@ -19,9 +21,17 @@ const product_routes_1 = __importDefault(require("./routes/product.routes"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 dotenv_1.default.config({ path: ".env" });
 const server = (0, fastify_1.default)({ logger: true });
+server.register(cookie_1.fastifyCookie, {
+    secret: process.env.SECRET_COOKIE,
+});
+server.register(session_1.fastifySession, {
+    cookieName: "sessionId",
+    secret: process.env.SECRET_COOKIE,
+});
 server.register(user_routes_1.default, { prefix: "api/v1/user" });
 server.register(product_routes_1.default, { prefix: "api/v1/product" });
 const port = process.env.PORT;
+const secret = process.env.SECRET_COOKIE;
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         try {
