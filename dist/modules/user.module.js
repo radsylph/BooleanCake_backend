@@ -28,12 +28,6 @@ class UserModule {
                 if (existingEmail) {
                     return reply.code(500).send({ message: "Email already in use" });
                 }
-                const exitingUsername = yield user_1.default.findOne({
-                    username: user_info.username,
-                });
-                if (exitingUsername) {
-                    return reply.code(500).send({ message: "Username already in use" });
-                }
                 const newUser = yield user_1.default.create(user_info);
                 const token = (0, generateToken_1.generateToken1)();
                 try {
