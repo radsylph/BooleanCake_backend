@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const cookie_1 = require("@fastify/cookie");
+const cors_1 = __importDefault(require("@fastify/cors"));
 const session_1 = require("@fastify/session");
 const dotenv_1 = __importDefault(require("dotenv"));
 const fastify_1 = __importDefault(require("fastify"));
@@ -29,6 +30,12 @@ server.register(session_1.fastifySession, {
     // se registra el plugin de las sesiones
     cookieName: "sessionId", // se pone el nombre de la cookie (no es obligatoriamente le nombre de la cookie que va a usar el navegador para la autentificacion)
     secret: process.env.SECRET_COOKIE, // se pone el secreto de la cookie
+});
+server.register(cors_1.default, {
+    origin: "*", // Permite todas las origenes
+    methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Permite estos métodos
+    allowedHeaders: ["Content-Type", "Authorization", "Origin", "Accept"], // Permite estos encabezados
+    credentials: true, // Permite cookies
 });
 server.register(user_routes_1.default, { prefix: "api/v1/user" }); // se registra el router de los usuarios con le prefijo
 server.register(product_routes_1.default, { prefix: "api/v1/product" }); // se registra el router de los productos con le prefijo
