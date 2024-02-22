@@ -1,5 +1,6 @@
 import cookie from "@fastify/cookie";
 import { fastifyCookie } from "@fastify/cookie";
+import cors from "@fastify/cors";
 import { fastifySession } from "@fastify/session";
 import dotenv from "dotenv";
 import fastify from "fastify";
@@ -21,6 +22,13 @@ server.register(fastifySession, {
 	// se registra el plugin de las sesiones
 	cookieName: "sessionId", // se pone el nombre de la cookie (no es obligatoriamente le nombre de la cookie que va a usar el navegador para la autentificacion)
 	secret: process.env.SECRET_COOKIE as unknown as string, // se pone el secreto de la cookie
+});
+
+server.register(cors, {
+	origin: "*", // Permite todas las origenes
+	methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Permite estos métodos
+	allowedHeaders: ["Content-Type", "Authorization", "Origin", "Accept"], // Permite estos encabezados
+	credentials: true, // Permite cookies
 });
 
 server.register(userRouter, { prefix: "api/v1/user" }); // se registra el router de los usuarios con le prefijo
