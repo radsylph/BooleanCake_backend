@@ -23,12 +23,6 @@ class UserModule {
 			if (existingEmail) {
 				return reply.code(500).send({ message: "Email already in use" });
 			}
-			const exitingUsername = await User.findOne({
-				username: user_info.username,
-			});
-			if (exitingUsername) {
-				return reply.code(500).send({ message: "Username already in use" });
-			}
 			const newUser = await User.create(user_info);
 			const token = generateToken1();
 			try {
