@@ -3,4 +3,5 @@ export interface ProductsInterface {
 	price: number;
 	expireDate: string;
 	category: string;
+	image: [string];
 }

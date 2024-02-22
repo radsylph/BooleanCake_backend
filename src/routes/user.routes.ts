@@ -97,6 +97,15 @@ function userRouter(
 	fastify.route({
 		method: "POST",
 		url: "/cookie",
+		const test1 = async (request: FastifyRequest, reply: FastifyReply) => {
+			const params = request.body;
+			try {
+				return reply.code(200).send({ message: "hello", data: params });
+			} catch (error) {
+				return reply.code(500).send({ message: "error" });
+			}
+		};
+		
 		handler: test5,
 	});
 
