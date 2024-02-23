@@ -18,9 +18,9 @@ const session_1 = require("@fastify/session");
 const dotenv_1 = __importDefault(require("dotenv"));
 const fastify_1 = __importDefault(require("fastify"));
 const database_1 = __importDefault(require("./config/database"));
+const ingredient_routes_1 = __importDefault(require("./routes/ingredient.routes"));
 const product_routes_1 = __importDefault(require("./routes/product.routes"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
-const ingredient_routes_1 = __importDefault(require("./routes/ingredient.routes"));
 dotenv_1.default.config({ path: ".env" }); // se cargan las variables de entorno
 const server = (0, fastify_1.default)({ logger: true }); // se crea el servidor y se pone el logger
 server.register(cookie_1.fastifyCookie, {
