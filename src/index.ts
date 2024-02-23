@@ -6,10 +6,17 @@ import dotenv from "dotenv";
 import fastify from "fastify";
 import { FastifyReply, FastifyRequest } from "fastify";
 import db from "./config/database";
+<<<<<<< HEAD
 import productsRouter from "./routes/product.routes";
 import userRouter from "./routes/user.routes";
 
 dotenv.config({ path: ".env" }); // se cargan las variables de entorno
+=======
+// import userRouter from "./user/routes/user.routes";
+import userRouter from "./user/routes/user.routes";
+//test pr
+dotenv.config({ path: ".env" });
+>>>>>>> 714aba9 (feat:cambios pull request)
 
 const server = fastify({ logger: true }); // se crea el servidor y se pone el logger
 
