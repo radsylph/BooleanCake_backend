@@ -1,0 +1,48 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend for a cake page",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc-watch --onSuccess \"node dist/index.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/radsylph/BooleanCake_backend.git"
+  },
+  "keywords": [
+    "ts",
+    "mongoose",
+    "fastify",
+    "backend"
+  ],
+  "author": "andres alvarez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/radsylph/BooleanCake_backend/issues"
+  },
+  "homepage": "https://github.com/radsylph/BooleanCake_backend#readme",
+  "devDependencies": {
+    "@biomejs/biome": "1.5.3",
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.11.19",
+    "@types/nodemailer": "^6.4.14",
+    "tsc-watch": "^6.0.4",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@fastify/mongodb": "^8.0.0",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.4",
+    "fastify": "^4.26.1",
+    "fastify-plugin": "^4.5.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.1.2",
+    "nodemailer": "^6.9.9"
+  }
+}
