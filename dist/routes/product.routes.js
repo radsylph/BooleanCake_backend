@@ -13,7 +13,7 @@ function productsRouter(fastify, opts, done) {
     });
     fastify.route({
         method: "PUT",
-        url: "/update",
+        url: "/update/:id",
         handler: product_controller_1.updateProduct,
     });
     fastify.route({

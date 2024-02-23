@@ -35,6 +35,36 @@ class ProductsModule {
             }
         });
     }
+    updateProduct(request, reply) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const Product_id = request.params;
+            const Product_Changes = request.body;
+            try {
+                console.log(Product_id.id);
+                const existingProduct = yield product_1.default.findById(Product_id.id);
+                if (!existingProduct) {
+                    return reply
+                        .code(404)
+                        .send({ message: "Product not found", data: Product_id });
+                }
+                const ProductDetails = yield product_1.default.findByIdAndUpdate(Product_id.id, {
+                    storage: Product_Changes.storage,
+                    name: Product_Changes.name,
+                    price: Product_Changes.price,
+                    expireDate: Product_Changes.expireDate,
+                    category: Product_Changes.category,
+                    image: Product_Changes.image,
+                });
+                return reply
+                    .code(202)
+                    .send({ message: "Product Updated", data: ProductDetails });
+            }
+            catch (error) {
+                console.log(error);
+                return reply.code(500).send({ message: "Error Updating Product", error });
+            }
+        });
+    }
     deleteProduct(request, reply) {
         return __awaiter(this, void 0, void 0, function* () {
             const Product_id = request.params; // se sacara el id (el parametro de la url)
@@ -86,28 +116,6 @@ class ProductsModule {
             catch (error) {
                 console.log(error);
                 return reply.code(500).send({ message: "Error Finding Product", error });
-            }
-        });
-    }
-    updateProduct(request, reply) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const Product_Changes = request.body;
-            try {
-                const ProductDetails = yield product_1.default.findByIdAndUpdate(Product_Changes.id, {
-                    storage: Product_Changes.storage,
-                    name: Product_Changes.name,
-                    price: Product_Changes.price,
-                    expireDate: Product_Changes.expireDate,
-                    category: Product_Changes.category,
-                    image: Product_Changes.image,
-                });
-                return reply
-                    .code(202)
-                    .send({ message: "Product Updated", data: ProductDetails });
-            }
-            catch (error) {
-                console.log(error);
-                return reply.code(500).send({ message: "Error Updating Product", error });
             }
         });
     }
