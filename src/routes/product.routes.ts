@@ -7,11 +7,12 @@ import {
 	FastifyRequest,
 } from "fastify";
 import {
-	createProducts,
-	test1,
-	test2,
-	test3,
-} from "../controllers/products.controller";
+	createProduct,
+	deleteProduct,
+	getProduct,
+	updateProduct,
+	getAllProducts,
+} from "../controllers/product.controller";
 
 // export const router = async (fastify: FastifyInstance, options: any) => {
 // 	fastify.post("/test", test1).get("/test", test2).get("/test/:id", test3);
@@ -24,27 +25,32 @@ function productsRouter(
 	done: () => void,
 ) {
 	fastify.route({
-		method: "POST",
-		url: "/test",
-		handler: test1,
+		method: "GET",
+		url: "/getall",
+		handler: getAllProducts,
 	});
 
 	fastify.route({
-		method: "GET",
-		url: "/test",
-		handler: test2,
+		method: "PUT",
+		url: "/update",
+		handler: updateProduct,
 	});
-
-	fastify.route({
-		method: "GET",
-		url: "/test/:id",
-		handler: test3,
-	});
-
 	fastify.route({
 		method: "POST",
 		url: "/create",
-		handler: createProducts,
+		handler: createProduct,
+	});
+
+	fastify.route({
+		method: "POST",
+		url: "/get",
+		handler: getProduct,
+	});
+
+	fastify.route({
+		method: "DELETE",
+		url: "/delete",
+		handler: deleteProduct,
 	});
 
 	done();
