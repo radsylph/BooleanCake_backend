@@ -36,6 +36,38 @@ class ProductsModule {
 		}
 	}
 
+	async updateProduct(
+		request: FastifyRequest<{ Body: BodyType }>,
+		reply: FastifyReply,
+	) {
+		const Product_id: any = request.params;
+		const Product_Changes = request.body;
+
+		try {
+			console.log(Product_id.id);
+			const existingProduct = await Products.findById(Product_id.id);
+			if (!existingProduct) {
+				return reply
+					.code(404)
+					.send({ message: "Product not found", data: Product_id });
+			}
+			const ProductDetails = await Products.findByIdAndUpdate(Product_id.id, {
+				storage: Product_Changes.storage,
+				name: Product_Changes.name,
+				price: Product_Changes.price,
+				expireDate: Product_Changes.expireDate,
+				category: Product_Changes.category,
+				image: Product_Changes.image,
+			});
+			return reply
+				.code(202)
+				.send({ message: "Product Updated", data: ProductDetails });
+		} catch (error) {
+			console.log(error);
+			return reply.code(500).send({ message: "Error Updating Product", error });
+		}
+	}
+
 	async deleteProduct(
 		request: FastifyRequest<{ Body: BodyType }>,
 		reply: FastifyReply,
@@ -91,32 +123,6 @@ class ProductsModule {
 		} catch (error) {
 			console.log(error);
 			return reply.code(500).send({ message: "Error Finding Product", error });
-		}
-	}
-
-	async updateProduct(
-		request: FastifyRequest<{ Body: BodyType }>,
-		reply: FastifyReply,
-	) {
-		const Product_Changes = request.body;
-		try {
-			const ProductDetails = await Products.findByIdAndUpdate(
-				Product_Changes.id,
-				{
-					storage: Product_Changes.storage,
-					name: Product_Changes.name,
-					price: Product_Changes.price,
-					expireDate: Product_Changes.expireDate,
-					category: Product_Changes.category,
-					image: Product_Changes.image,
-				},
-			);
-			return reply
-				.code(202)
-				.send({ message: "Product Updated", data: ProductDetails });
-		} catch (error) {
-			console.log(error);
-			return reply.code(500).send({ message: "Error Updating Product", error });
 		}
 	}
 }
