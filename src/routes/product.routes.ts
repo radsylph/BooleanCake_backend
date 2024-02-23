@@ -48,7 +48,7 @@ function productsRouter(
 	});
 
 	fastify.route({
-		method: "DELETE",
+		method: "POST",
 		url: "/delete",
 		handler: deleteProduct,
 	});
