@@ -8,6 +8,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import db from "./config/database";
 import productsRouter from "./routes/product.routes";
 import userRouter from "./routes/user.routes";
+import ingredientRouter from "./routes/ingredient.routes";
 
 dotenv.config({ path: ".env" }); // se cargan las variables de entorno
 
@@ -33,6 +34,7 @@ server.register(cors, {
 
 server.register(userRouter, { prefix: "api/v1/user" }); // se registra el router de los usuarios con le prefijo
 server.register(productsRouter, { prefix: "api/v1/product" }); // se registra el router de los productos con le prefijo
+server.register(ingredientRouter, { prefix: "api/v1/ingredient" });
 
 const port: number = process.env.PORT as unknown as number; // se obtiene el puerto del archivo
 
