@@ -4,7 +4,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import db from "./config/database";
 // import userRouter from "./user/routes/user.routes";
 import userRouter from "./user/routes/user.routes";
-
+//test pr
 dotenv.config({ path: ".env" });
 
 const server = fastify({ logger: true });
