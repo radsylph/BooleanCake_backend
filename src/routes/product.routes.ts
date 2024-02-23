@@ -32,7 +32,7 @@ function productsRouter(
 
 	fastify.route({
 		method: "PUT",
-		url: "/update",
+		url: "/update/:id",
 		handler: updateProduct,
 	});
 	fastify.route({
