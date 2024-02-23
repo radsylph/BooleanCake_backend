@@ -40,11 +40,18 @@ class ProductsModule {
 		request: FastifyRequest<{ Body: BodyType }>,
 		reply: FastifyReply,
 	) {
-		const Product_id = request.body.id;
+		const Product_id: any = request.params; // se sacara el id (el parametro de la url)
 		try {
 			const deleteProduct = await Products.findOneAndDelete({
-				_id: Product_id,
+				_id: Product_id.id, // se busca el producto por el id(Product_id es un objecto con el id adentro, por eso se pone Product_id.id)
 			});
+			if (!deleteProduct) {
+				//validacion por si el id no existe y de error 404
+				return reply
+					.code(404)
+					.send({ message: "Product not found", data: Product_id });
+			}
+
 			return reply
 				.code(202)
 				.send({ message: "Product deleted", data: Product_id });

@@ -28,7 +28,7 @@ function productsRouter(fastify, opts, done) {
     });
     fastify.route({
         method: "DELETE",
-        url: "/delete",
+        url: "/delete/:id", // se le pone el id para que sepa que es un parametro
         handler: product_controller_1.deleteProduct,
     });
     done();
