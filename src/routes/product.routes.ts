@@ -9,9 +9,9 @@ import {
 import {
 	createProduct,
 	deleteProduct,
+	getAllProducts,
 	getProduct,
 	updateProduct,
-	getAllProducts,
 } from "../controllers/product.controller";
 
 // export const router = async (fastify: FastifyInstance, options: any) => {
@@ -32,7 +32,7 @@ function productsRouter(
 
 	fastify.route({
 		method: "PUT",
-		url: "/update",
+		url: "/update/:id",
 		handler: updateProduct,
 	});
 	fastify.route({
@@ -49,7 +49,7 @@ function productsRouter(
 
 	fastify.route({
 		method: "DELETE",
-		url: "/delete",
+		url: "/delete/:id", // se le pone el id para que sepa que es un parametro
 		handler: deleteProduct,
 	});
 

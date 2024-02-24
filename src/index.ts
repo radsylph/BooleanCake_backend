@@ -6,9 +6,9 @@ import dotenv from "dotenv";
 import fastify from "fastify";
 import { FastifyReply, FastifyRequest } from "fastify";
 import db from "./config/database";
+import ingredientRouter from "./routes/ingredient.routes";
 import productsRouter from "./routes/product.routes";
 import userRouter from "./routes/user.routes";
-import ingredientRouter from "./routes/ingredient.routes";
 
 dotenv.config({ path: ".env" }); // se cargan las variables de entorno
 
