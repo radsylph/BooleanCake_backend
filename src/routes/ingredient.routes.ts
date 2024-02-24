@@ -23,31 +23,31 @@ function ingredientRouter(
 
 	fastify.route({
 		method: "POST",
-		url: "/createIngredient",
+		url: "/",
 		handler: createIngredient,
 	});    
 
 	fastify.route({
 		method: "DELETE",
-		url: "/deleteIngredient/:id",
+		url: "/:id",
 		handler: deleteIngredient,
 	});
 
 	fastify.route({
 		method: "PUT",
-		url: "/updateIngredient/:id",
+		url: "/:id",
 		handler: updateIngredient,
 	});
 
 	fastify.route({
 		method: "GET",
-		url: "/getAllIngredients",
+		url: "/getAll",
 		handler: getAllIngredients,
 	});
 
 	fastify.route({
 		method: "GET",
-		url: "/getIngredient/:id",
+		url: "/:id",
 		handler: getIngredientById,
 	});
 
