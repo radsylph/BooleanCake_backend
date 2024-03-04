@@ -1,5 +1,3 @@
-import { create } from "domain";
-import fastify from "fastify";
 import {
 	FastifyInstance,
 	FastifyPluginOptions,
@@ -8,16 +6,10 @@ import {
 } from "fastify";
 import {
 	createUser,
+	getSchemas,
 	getUserInfo,
 	logOutUser,
 	loginUser,
-	test1,
-	test2,
-	test3,
-	test4,
-	test5,
-	test6,
-	test7,
 	verifyUser,
 } from "../controllers/user.controllers";
 
@@ -27,21 +19,19 @@ function userRouter(
 	done: () => void,
 ) {
 	fastify.register(async (fastify, opts, done) => {
-		await fastify.addHook("preHandler", async (request, reply) => {
-			const sessionCookie = request.cookies.session;
-			if (
-				!sessionCookie ||
-				sessionCookie === "" ||
-				request.cookies.session === ""
-			) {
-				reply.code(401).send({ message: "No autorizado" });
-			}
-		});
-		fastify.route({
-			method: "GET",
-			url: "/cookie",
-			handler: test6,
-		});
+		await fastify.addHook(
+			"preHandler",
+			async (request: FastifyRequest, reply: FastifyReply) => {
+				const sessionCookie = request.cookies.session;
+				if (
+					!sessionCookie ||
+					sessionCookie === "" ||
+					request.cookies.session === ""
+				) {
+					reply.code(401).send({ message: "Not Authorized" });
+				}
+			},
+		);
 
 		fastify.route({
 			method: "GET",
@@ -60,32 +50,11 @@ function userRouter(
 
 	fastify.route({
 		method: "POST",
-		url: "/test",
-		handler: test1,
-	});
-
-	fastify.route({
-		method: "GET",
-		url: "/test",
-		handler: test2,
-	});
-
-	fastify.route({
-		method: "GET",
-		url: "/test/:id",
-		handler: test3,
-	});
-
-	fastify.route({
-		method: "POST",
 		url: "/create",
 		handler: createUser,
-	});
-
-	fastify.route({
-		method: "GET",
-		url: "/test4",
-		handler: test4,
+		schema: {
+			body: { $ref: "CreateBody#" },
+		},
 	});
 
 	fastify.route({
@@ -96,21 +65,17 @@ function userRouter(
 
 	fastify.route({
 		method: "POST",
-		url: "/cookie",
-		handler: test5,
-	});
-
-	// Mover la ruta "/cookie" (DELETE) fuera del bloque fastify.register
-	fastify.route({
-		method: "DELETE",
-		url: "/cookie",
-		handler: test7,
-	});
-
-	fastify.route({
-		method: "POST",
 		url: "/login",
 		handler: loginUser,
+		schema: {
+			body: { $ref: "LoginBody#" },
+		},
+	});
+
+	fastify.route({
+		method: "GET",
+		url: "/schemas",
+		handler: (request, reply) => getSchemas(request, reply, fastify),
 	});
 
 	done();
