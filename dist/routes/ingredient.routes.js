@@ -4,27 +4,27 @@ const ingredient_controller_1 = require("../controllers/ingredient.controller");
 function ingredientRouter(fastify, opts, done) {
     fastify.route({
         method: "POST",
-        url: "/createIngredient",
+        url: "/",
         handler: ingredient_controller_1.createIngredient,
     });
     fastify.route({
         method: "DELETE",
-        url: "/deleteIngredient/:id",
+        url: "/:id",
         handler: ingredient_controller_1.deleteIngredient,
     });
     fastify.route({
         method: "PUT",
-        url: "/updateIngredient/:id",
+        url: "/:id",
         handler: ingredient_controller_1.updateIngredient,
     });
     fastify.route({
         method: "GET",
-        url: "/getAllIngredients",
+        url: "/getAll",
         handler: ingredient_controller_1.getAllIngredients,
     });
     fastify.route({
         method: "GET",
-        url: "/getIngredient/:id",
+        url: "/:id",
         handler: ingredient_controller_1.getIngredientById,
     });
     done();
