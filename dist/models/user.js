@@ -31,7 +31,7 @@ const usuarioSchema = new mongoose_1.default.Schema({
             validator: (value) => {
                 return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(\.[a-zAZ0-9-]+)*$/.test(value);
             },
-            message: "Agrega un correo válido",
+            message: "Add a valid email address",
         },
     },
     password: {
