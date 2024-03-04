@@ -2,8 +2,9 @@ import bcrypt from "bcrypt";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { RouteGenericInterface } from "fastify/types/route";
 import jwt from "jsonwebtoken";
+import { Document, Model } from "mongoose";
 import { UserInterface } from "../interfaces";
-import User from "../models/user";
+//import User from "../models/user";
 import {
 	decryptToken,
 	generateJWT,
@@ -11,20 +12,40 @@ import {
 } from "../utils/generateToken";
 import { emailRegistro, emailReset } from "../utils/mail";
 
+interface UserDocument extends Document, UserInterface {}
+
 class UserModule {
-	constructor() {
+	User: Model<UserDocument>;
+	constructor({ userModel }: { userModel: Model<UserDocument> }) {
+		this.User = userModel;
 		console.log("UserModule loaded");
 	}
 
-	async createUser(request: FastifyRequest, reply: FastifyReply) {
-		const user_info: any = request.body;
+	async createUser(
+		request: FastifyRequest<{ Body: UserInterface }>,
+		reply: FastifyReply,
+	) {
+		const { name, lastname, email, password, cellphone, role } = request.body;
 		try {
-			const existingEmail = await User.findOne({ email: user_info.email });
+			const existingEmail = await this.User.findOne({ email: email });
 			if (existingEmail) {
 				return reply.code(500).send({ message: "Email already in use" });
 			}
-			const newUser = await User.create(user_info);
-			const token = generateToken1();
+			const existingCellphone = await this.User.findOne({
+				cellphone: cellphone,
+			});
+			if (existingCellphone) {
+				return reply.code(500).send({ message: "Cellphone already in use" });
+			}
+			const newUser = await this.User.create({
+				name,
+				lastname,
+				email,
+				password,
+				cellphone,
+				role,
+			});
+			const token = generateToken1(); //cambiarlo por otro para que tenga 5 digitos random y ya
 			try {
 				emailRegistro({
 					email: newUser.email,
@@ -37,7 +58,6 @@ class UserModule {
 			}
 			newUser.token = token;
 			await newUser.save();
-
 			return reply.code(200).send({ message: "User created", data: newUser });
 		} catch (error) {
 			console.log(error);
@@ -50,7 +70,7 @@ class UserModule {
 		try {
 			console.log(token);
 			console.log(typeof token);
-			const user = await User.findOne({ token: token });
+			const user = await this.User.findOne({ token: token });
 			if (!user) {
 				return reply.code(404).send({ message: "User not found" });
 			}
@@ -63,23 +83,27 @@ class UserModule {
 		}
 	}
 
-	async loginUser(request: FastifyRequest, reply: FastifyReply) {
-		const user_info: any = request.body;
-		console.log(user_info);
+	async loginUser(
+		request: FastifyRequest<{ Body: UserInterface }>,
+		reply: FastifyReply,
+	) {
+		//const user_info: any = request.body;
+		const { email, password } = request.body;
+
 		try {
-			const ExistingUser = await User.findOne({ email: user_info.email });
+			const ExistingUser = await this.User.findOne({ email: email });
 			if (!ExistingUser) {
 				return reply.code(404).send({ message: "User not found" });
 			}
 			const validPassword = await bcrypt.compare(
-				user_info.password,
+				password,
 				ExistingUser.password,
 			);
 			if (!validPassword) {
 				return reply.code(500).send({ message: "Invalid password" });
 			}
 			if (!ExistingUser.verify) {
-				return reply.code(500).send({ message: "User not verified" });
+				return reply.code(500).send({ message: "The user is not verified" });
 			}
 			const token: string = generateJWT(ExistingUser._id as unknown as string);
 			reply.setCookie("session", token, {
@@ -89,11 +113,13 @@ class UserModule {
 				expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000),
 				sameSite: "strict",
 			});
+			console.log(ExistingUser);
 			return reply.code(200).send({
 				message: "User logged in",
 				user: ExistingUser,
 			});
 		} catch (error) {
+			console.log(error);
 			return reply.code(500).send({ message: "Error logging in", error });
 		}
 	}
@@ -103,7 +129,7 @@ class UserModule {
 		try {
 			const user_id: any = decryptToken(cookieSession);
 			console.log(user_id.id);
-			const userInfo = await User.findOne({ _id: user_id.id });
+			const userInfo = await this.User.findOne({ _id: user_id.id });
 			if (!userInfo) {
 				return reply.code(404).send({ message: "User not found" });
 			}
@@ -122,17 +148,6 @@ class UserModule {
 			return reply.code(200).send({ message: "User logged out" });
 		} catch (error) {
 			return reply.code(500).send({ message: "Error logging out", error });
-		}
-	}
-
-	test(request: FastifyRequest, reply: FastifyReply) {
-		try {
-			const params = request.params;
-			return reply.code(200).send({ message: "UserModule works" });
-		} catch (error) {
-			return reply
-				.code(500)
-				.send({ message: "Error testing UserModule", error });
 		}
 	}
 }

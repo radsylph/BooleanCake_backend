@@ -13,23 +13,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const user_1 = __importDefault(require("../models/user"));
+//import User from "../models/user";
 const generateToken_1 = require("../utils/generateToken");
 const mail_1 = require("../utils/mail");
 class UserModule {
-    constructor() {
+    constructor({ userModel }) {
+        this.User = userModel;
         console.log("UserModule loaded");
     }
     createUser(request, reply) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user_info = request.body;
+            const { name, lastname, email, password, cellphone, role } = request.body;
             try {
-                const existingEmail = yield user_1.default.findOne({ email: user_info.email });
+                const existingEmail = yield this.User.findOne({ email: email });
                 if (existingEmail) {
                     return reply.code(500).send({ message: "Email already in use" });
                 }
-                const newUser = yield user_1.default.create(user_info);
-                const token = (0, generateToken_1.generateToken1)();
+                const existingCellphone = yield this.User.findOne({
+                    cellphone: cellphone,
+                });
+                if (existingCellphone) {
+                    return reply.code(500).send({ message: "Cellphone already in use" });
+                }
+                const newUser = yield this.User.create({
+                    name,
+                    lastname,
+                    email,
+                    password,
+                    cellphone,
+                    role,
+                });
+                const token = (0, generateToken_1.generateToken1)(); //cambiarlo por otro para que tenga 5 digitos random y ya
                 try {
                     (0, mail_1.emailRegistro)({
                         email: newUser.email,
@@ -57,7 +71,7 @@ class UserModule {
             try {
                 console.log(token);
                 console.log(typeof token);
-                const user = yield user_1.default.findOne({ token: token });
+                const user = yield this.User.findOne({ token: token });
                 if (!user) {
                     return reply.code(404).send({ message: "User not found" });
                 }
@@ -73,19 +87,19 @@ class UserModule {
     }
     loginUser(request, reply) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user_info = request.body;
-            console.log(user_info);
+            //const user_info: any = request.body;
+            const { email, password } = request.body;
             try {
-                const ExistingUser = yield user_1.default.findOne({ email: user_info.email });
+                const ExistingUser = yield this.User.findOne({ email: email });
                 if (!ExistingUser) {
                     return reply.code(404).send({ message: "User not found" });
                 }
-                const validPassword = yield bcrypt_1.default.compare(user_info.password, ExistingUser.password);
+                const validPassword = yield bcrypt_1.default.compare(password, ExistingUser.password);
                 if (!validPassword) {
                     return reply.code(500).send({ message: "Invalid password" });
                 }
                 if (!ExistingUser.verify) {
-                    return reply.code(500).send({ message: "User not verified" });
+                    return reply.code(500).send({ message: "The user is not verified" });
                 }
                 const token = (0, generateToken_1.generateJWT)(ExistingUser._id);
                 reply.setCookie("session", token, {
@@ -95,12 +109,14 @@ class UserModule {
                     expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000),
                     sameSite: "strict",
                 });
+                console.log(ExistingUser);
                 return reply.code(200).send({
                     message: "User logged in",
                     user: ExistingUser,
                 });
             }
             catch (error) {
+                console.log(error);
                 return reply.code(500).send({ message: "Error logging in", error });
             }
         });
@@ -111,7 +127,7 @@ class UserModule {
             try {
                 const user_id = (0, generateToken_1.decryptToken)(cookieSession);
                 console.log(user_id.id);
-                const userInfo = yield user_1.default.findOne({ _id: user_id.id });
+                const userInfo = yield this.User.findOne({ _id: user_id.id });
                 if (!userInfo) {
                     return reply.code(404).send({ message: "User not found" });
                 }
@@ -135,17 +151,6 @@ class UserModule {
                 return reply.code(500).send({ message: "Error logging out", error });
             }
         });
-    }
-    test(request, reply) {
-        try {
-            const params = request.params;
-            return reply.code(200).send({ message: "UserModule works" });
-        }
-        catch (error) {
-            return reply
-                .code(500)
-                .send({ message: "Error testing UserModule", error });
-        }
     }
 }
 exports.default = UserModule;

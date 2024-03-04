@@ -9,6 +9,6 @@ export interface UserInterface {
 	role: string;
 	token: string | null;
 	verify: boolean;
-	timestamps: boolean;
+	timestamps?: boolean;
 	verificarPassword: (password: string) => Promise<boolean>;
 }

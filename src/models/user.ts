@@ -22,7 +22,7 @@ const usuarioSchema = new mongoose.Schema<UserInterface>(
 						value,
 					);
 				},
-				message: "Agrega un correo válido",
+				message: "Add a valid email address",
 			},
 		},
 		password: {
