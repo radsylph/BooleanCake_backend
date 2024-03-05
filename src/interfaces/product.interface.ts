@@ -5,4 +5,5 @@ export interface ProductsInterface {
 	expireDate: Date;
 	category: string;
 	image: string;
+	region: string;
 }

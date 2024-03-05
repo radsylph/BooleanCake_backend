@@ -104,8 +104,11 @@ class ProductsModule {
     }
     getAllProducts(request, reply) {
         return __awaiter(this, void 0, void 0, function* () {
+            const regionDetail = request.params;
             try {
-                const AllProducts = yield this.Product.find({});
+                const AllProducts = yield this.Product.find({
+                    region: regionDetail.region,
+                });
                 return reply
                     .code(202)
                     .send({ message: "Products Finded", data: AllProducts });

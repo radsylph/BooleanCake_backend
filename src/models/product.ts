@@ -27,6 +27,10 @@ const ProductsSchema = new mongoose.Schema<ProductsInterface>({
 		type: String,
 		required: false,
 	},
+	region: {
+		type: String,
+		required: true,
+	},
 });
 
 const Products = mongoose.model("Products", ProductsSchema);

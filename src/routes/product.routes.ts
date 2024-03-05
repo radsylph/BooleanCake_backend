@@ -26,7 +26,7 @@ function productsRouter(
 ) {
 	fastify.route({
 		method: "GET",
-		url: "/get",
+		url: "/getall/:region",
 		handler: getAllProducts,
 	});
 

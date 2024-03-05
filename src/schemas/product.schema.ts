@@ -10,6 +10,7 @@ export const CreateProductBodySchema = {
 		expireDate: { type: "string" },
 		category: { type: "string" },
 		image: { type: "string" },
+		region: { type: "string" },
 	},
-	required: ["storage", "name", "expireDate", "category", "image"],
+	required: ["storage", "name", "expireDate", "category", "image", "region"],
 };

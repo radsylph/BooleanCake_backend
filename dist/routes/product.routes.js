@@ -8,7 +8,7 @@ const product_controller_1 = require("../controllers/product.controller");
 function productsRouter(fastify, opts, done) {
     fastify.route({
         method: "GET",
-        url: "/get",
+        url: "/getall/:region",
         handler: product_controller_1.getAllProducts,
     });
     fastify.route({

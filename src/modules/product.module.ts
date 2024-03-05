@@ -110,8 +110,11 @@ class ProductsModule {
 		request: FastifyRequest<{ Body: ProductsInterface }>,
 		reply: FastifyReply,
 	) {
+		const regionDetail: any = request.params;
 		try {
-			const AllProducts = await this.Product.find({});
+			const AllProducts = await this.Product.find({
+				region: regionDetail.region,
+			});
 			return reply
 				.code(202)
 				.send({ message: "Products Finded", data: AllProducts });
