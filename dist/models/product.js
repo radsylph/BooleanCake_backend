@@ -29,6 +29,10 @@ const ProductsSchema = new mongoose_1.default.Schema({
         type: String,
         required: false,
     },
+    region: {
+        type: String,
+        required: true,
+    },
 });
 const Products = mongoose_1.default.model("Products", ProductsSchema);
 exports.default = Products;
