@@ -18,7 +18,7 @@ const ProductsSchema = new mongoose_1.default.Schema({
         required: true,
     },
     expireDate: {
-        type: String,
+        type: Date,
         required: true,
     },
     category: {

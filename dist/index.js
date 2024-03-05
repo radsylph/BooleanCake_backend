@@ -23,6 +23,7 @@ const ingredient_routes_1 = __importDefault(require("./routes/ingredient.routes"
 const product_routes_1 = __importDefault(require("./routes/product.routes"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const user_schemas_1 = require("./schemas/user.schemas");
+const product_schema_1 = require("./schemas/product.schema");
 dotenv_1.default.config({ path: ".env" }); // se cargan las variables de entorno
 const server = (0, fastify_1.default)({ logger: true }); // se crea el servidor y se pone el logger
 server.register(cookie_1.fastifyCookie, {
@@ -51,6 +52,7 @@ server.register(ingredient_routes_1.default, { prefix: "api/v1/ingredient" });
 server.addSchema(user_schemas_1.loginBodySchema); // se añade el esquema del login
 server.addSchema(user_schemas_1.createUserBodySchema); // se añade el esquema del crear usuario
 server.addSchema(user_schemas_1.verifyUserParamsSchema); // se añade el esquema de verificar usuario
+server.addSchema(product_schema_1.CreateProductBodySchema); // se añade el esquema de crear producto
 const port = process.env.PORT; // se obtiene el puerto del archivo
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     // se crea la funcion asincrona para iniciar el servidor
