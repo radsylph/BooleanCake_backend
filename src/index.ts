@@ -16,6 +16,8 @@ import {
 	verifyUserParamsSchema,
 } from "./schemas/user.schemas";
 
+import { CreateProductBodySchema } from "./schemas/product.schema";
+
 dotenv.config({ path: ".env" }); // se cargan las variables de entorno
 
 const server = fastify({ logger: true }); // se crea el servidor y se pone el logger
@@ -51,6 +53,7 @@ server.register(ingredientRouter, { prefix: "api/v1/ingredient" });
 server.addSchema(loginBodySchema); // se añade el esquema del login
 server.addSchema(createUserBodySchema); // se añade el esquema del crear usuario
 server.addSchema(verifyUserParamsSchema); // se añade el esquema de verificar usuario
+server.addSchema(CreateProductBodySchema); // se añade el esquema de crear producto
 
 const port: number = process.env.PORT as unknown as number; // se obtiene el puerto del archivo
 

@@ -8,20 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const product_1 = __importDefault(require("../models/product"));
 class ProductsModule {
-    constructor() {
-        console.log("ProductsModule loaded");
+    constructor({ ProductModel }) {
+        this.Product = ProductModel;
+        console.log("ProductModule loaded");
     }
     createProduct(request, reply) {
         return __awaiter(this, void 0, void 0, function* () {
             const Products_info = request.body;
             try {
-                const newProducts = yield product_1.default.create(Products_info);
+                const newProducts = yield this.Product.create(Products_info);
                 yield newProducts.save();
                 return reply
                     .code(202)
@@ -41,13 +38,13 @@ class ProductsModule {
             const Product_Changes = request.body;
             try {
                 console.log(Product_id.id);
-                const existingProduct = yield product_1.default.findById(Product_id.id);
+                const existingProduct = yield this.Product.findById(Product_id.id);
                 if (!existingProduct) {
                     return reply
                         .code(404)
                         .send({ message: "Product not found", data: Product_id });
                 }
-                const ProductDetails = yield product_1.default.findByIdAndUpdate(Product_id.id, {
+                const ProductDetails = yield this.Product.findByIdAndUpdate(Product_id.id, {
                     storage: Product_Changes.storage,
                     name: Product_Changes.name,
                     price: Product_Changes.price,
@@ -69,7 +66,7 @@ class ProductsModule {
         return __awaiter(this, void 0, void 0, function* () {
             const Product_id = request.params; // se sacara el id (el parametro de la url)
             try {
-                const deleteProduct = yield product_1.default.findOneAndDelete({
+                const deleteProduct = yield this.Product.findOneAndDelete({
                     _id: Product_id.id, // se busca el producto por el id(Product_id es un objecto con el id adentro, por eso se pone Product_id.id)
                 });
                 if (!deleteProduct) {
@@ -90,10 +87,10 @@ class ProductsModule {
     }
     getProduct(request, reply) {
         return __awaiter(this, void 0, void 0, function* () {
-            const Product_id = request.body.id;
+            const Product_id = request.params;
             try {
-                const ProductDetails = yield product_1.default.find({
-                    _id: Product_id,
+                const ProductDetails = yield this.Product.find({
+                    _id: Product_id.id,
                 });
                 return reply
                     .code(202)
@@ -108,10 +105,10 @@ class ProductsModule {
     getAllProducts(request, reply) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const AllProducts = yield product_1.default.find({});
+                const AllProducts = yield this.Product.find({});
                 return reply
                     .code(202)
-                    .send({ message: "Product Finded", data: AllProducts });
+                    .send({ message: "Products Finded", data: AllProducts });
             }
             catch (error) {
                 console.log(error);

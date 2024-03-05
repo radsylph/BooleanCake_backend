@@ -26,7 +26,7 @@ function productsRouter(
 ) {
 	fastify.route({
 		method: "GET",
-		url: "/getall",
+		url: "/get",
 		handler: getAllProducts,
 	});
 
@@ -34,16 +34,18 @@ function productsRouter(
 		method: "PUT",
 		url: "/update/:id",
 		handler: updateProduct,
+		schema: { body: { $ref: "CreateProductBody" } },
 	});
 	fastify.route({
 		method: "POST",
 		url: "/create",
 		handler: createProduct,
+		schema: { body: { $ref: "CreateProductBody" } },
 	});
 
 	fastify.route({
-		method: "POST",
-		url: "/get",
+		method: "GET",
+		url: "/get/:id",
 		handler: getProduct,
 	});
 

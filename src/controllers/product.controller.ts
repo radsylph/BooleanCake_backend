@@ -1,7 +1,8 @@
 import { request } from "http";
 import fastify, { FastifyReply, FastifyRequest } from "fastify";
-import Products from "../models/product";
-import productsModule from "../modules/product.module";
+import { PCM } from "../config/container";
+
+const ProductsModule = PCM.resolve("ProductModule");
 
 interface BodyType {
 	id: string;
@@ -12,8 +13,6 @@ interface BodyType {
 	category: string;
 	image: string;
 }
-
-const ProductsModule = new productsModule();
 
 const createProduct = async (request: FastifyRequest, reply: FastifyReply) => {
 	await ProductsModule.createProduct(request, reply);

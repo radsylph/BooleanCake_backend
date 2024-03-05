@@ -6,31 +6,33 @@ const product_controller_1 = require("../controllers/product.controller");
 // 	fastify.post("/create", createproducts);
 // };
 function productsRouter(fastify, opts, done) {
-	fastify.route({
-		method: "GET",
-		url: "/getall",
-		handler: product_controller_1.getAllProducts,
-	});
-	fastify.route({
-		method: "PUT",
-		url: "/update/:id",
-		handler: product_controller_1.updateProduct,
-	});
-	fastify.route({
-		method: "POST",
-		url: "/create",
-		handler: product_controller_1.createProduct,
-	});
-	fastify.route({
-		method: "POST",
-		url: "/get",
-		handler: product_controller_1.getProduct,
-	});
-	fastify.route({
-		method: "DELETE",
-		url: "/delete/:id", // se le pone el id para que sepa que es un parametro
-		handler: product_controller_1.deleteProduct,
-	});
-	done();
+    fastify.route({
+        method: "GET",
+        url: "/get",
+        handler: product_controller_1.getAllProducts,
+    });
+    fastify.route({
+        method: "PUT",
+        url: "/update/:id",
+        handler: product_controller_1.updateProduct,
+        schema: { body: { $ref: "CreateProductBody" } },
+    });
+    fastify.route({
+        method: "POST",
+        url: "/create",
+        handler: product_controller_1.createProduct,
+        schema: { body: { $ref: "CreateProductBody" } },
+    });
+    fastify.route({
+        method: "GET",
+        url: "/get/:id",
+        handler: product_controller_1.getProduct,
+    });
+    fastify.route({
+        method: "DELETE",
+        url: "/delete/:id", // se le pone el id para que sepa que es un parametro
+        handler: product_controller_1.deleteProduct,
+    });
+    done();
 }
 exports.default = productsRouter;

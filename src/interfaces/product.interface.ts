@@ -2,7 +2,7 @@ export interface ProductsInterface {
 	storage: number;
 	name: string;
 	price: number;
-	expireDate: string;
+	expireDate: Date;
 	category: string;
 	image: string;
 }
