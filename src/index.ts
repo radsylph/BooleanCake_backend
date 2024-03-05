@@ -1,3 +1,4 @@
+import { fastifyAwilixPlugin } from "@fastify/awilix";
 import cookie from "@fastify/cookie";
 import { fastifyCookie } from "@fastify/cookie";
 import cors from "@fastify/cors";
@@ -6,9 +7,14 @@ import dotenv from "dotenv";
 import fastify from "fastify";
 import { FastifyReply, FastifyRequest } from "fastify";
 import db from "./config/database";
+import ingredientRouter from "./routes/ingredient.routes";
 import productsRouter from "./routes/product.routes";
 import userRouter from "./routes/user.routes";
-import ingredientRouter from "./routes/ingredient.routes";
+import {
+	createUserBodySchema,
+	loginBodySchema,
+	verifyUserParamsSchema,
+} from "./schemas/user.schemas";
 
 dotenv.config({ path: ".env" }); // se cargan las variables de entorno
 
@@ -32,9 +38,19 @@ server.register(cors, {
 	credentials: true, // Permite cookies
 });
 
+server.register(fastifyAwilixPlugin, {
+	disposeOnClose: true,
+	disposeOnResponse: true,
+	strictBooleanEnforced: true,
+});
+
 server.register(userRouter, { prefix: "api/v1/user" }); // se registra el router de los usuarios con le prefijo
 server.register(productsRouter, { prefix: "api/v1/product" }); // se registra el router de los productos con le prefijo
 server.register(ingredientRouter, { prefix: "api/v1/ingredient" });
+
+server.addSchema(loginBodySchema); // se añade el esquema del login
+server.addSchema(createUserBodySchema); // se añade el esquema del crear usuario
+server.addSchema(verifyUserParamsSchema); // se añade el esquema de verificar usuario
 
 const port: number = process.env.PORT as unknown as number; // se obtiene el puerto del archivo
 

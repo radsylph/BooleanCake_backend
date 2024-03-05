@@ -12,15 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const awilix_1 = require("@fastify/awilix");
 const cookie_1 = require("@fastify/cookie");
 const cors_1 = __importDefault(require("@fastify/cors"));
 const session_1 = require("@fastify/session");
 const dotenv_1 = __importDefault(require("dotenv"));
 const fastify_1 = __importDefault(require("fastify"));
 const database_1 = __importDefault(require("./config/database"));
+const ingredient_routes_1 = __importDefault(require("./routes/ingredient.routes"));
 const product_routes_1 = __importDefault(require("./routes/product.routes"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
-const ingredient_routes_1 = __importDefault(require("./routes/ingredient.routes"));
+const user_schemas_1 = require("./schemas/user.schemas");
 dotenv_1.default.config({ path: ".env" }); // se cargan las variables de entorno
 const server = (0, fastify_1.default)({ logger: true }); // se crea el servidor y se pone el logger
 server.register(cookie_1.fastifyCookie, {
@@ -38,9 +40,17 @@ server.register(cors_1.default, {
     allowedHeaders: ["Content-Type", "Authorization", "Origin", "Accept"], // Permite estos encabezados
     credentials: true, // Permite cookies
 });
+server.register(awilix_1.fastifyAwilixPlugin, {
+    disposeOnClose: true,
+    disposeOnResponse: true,
+    strictBooleanEnforced: true,
+});
 server.register(user_routes_1.default, { prefix: "api/v1/user" }); // se registra el router de los usuarios con le prefijo
 server.register(product_routes_1.default, { prefix: "api/v1/product" }); // se registra el router de los productos con le prefijo
 server.register(ingredient_routes_1.default, { prefix: "api/v1/ingredient" });
+server.addSchema(user_schemas_1.loginBodySchema); // se añade el esquema del login
+server.addSchema(user_schemas_1.createUserBodySchema); // se añade el esquema del crear usuario
+server.addSchema(user_schemas_1.verifyUserParamsSchema); // se añade el esquema de verificar usuario
 const port = process.env.PORT; // se obtiene el puerto del archivo
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     // se crea la funcion asincrona para iniciar el servidor

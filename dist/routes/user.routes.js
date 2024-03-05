@@ -17,14 +17,9 @@ function userRouter(fastify, opts, done) {
             if (!sessionCookie ||
                 sessionCookie === "" ||
                 request.cookies.session === "") {
-                reply.code(401).send({ message: "No autorizado" });
+                reply.code(401).send({ message: "Not Authorized" });
             }
         }));
-        fastify.route({
-            method: "GET",
-            url: "/cookie",
-            handler: user_controllers_1.test6,
-        });
         fastify.route({
             method: "GET",
             url: "/info",
@@ -39,28 +34,11 @@ function userRouter(fastify, opts, done) {
     }));
     fastify.route({
         method: "POST",
-        url: "/test",
-        handler: user_controllers_1.test1,
-    });
-    fastify.route({
-        method: "GET",
-        url: "/test",
-        handler: user_controllers_1.test2,
-    });
-    fastify.route({
-        method: "GET",
-        url: "/test/:id",
-        handler: user_controllers_1.test3,
-    });
-    fastify.route({
-        method: "POST",
         url: "/create",
         handler: user_controllers_1.createUser,
-    });
-    fastify.route({
-        method: "GET",
-        url: "/test4",
-        handler: user_controllers_1.test4,
+        schema: {
+            body: { $ref: "CreateBody#" },
+        },
     });
     fastify.route({
         method: "GET",
@@ -69,19 +47,16 @@ function userRouter(fastify, opts, done) {
     });
     fastify.route({
         method: "POST",
-        url: "/cookie",
-        handler: user_controllers_1.test5,
-    });
-    // Mover la ruta "/cookie" (DELETE) fuera del bloque fastify.register
-    fastify.route({
-        method: "DELETE",
-        url: "/cookie",
-        handler: user_controllers_1.test7,
-    });
-    fastify.route({
-        method: "POST",
         url: "/login",
         handler: user_controllers_1.loginUser,
+        schema: {
+            body: { $ref: "LoginBody#" },
+        },
+    });
+    fastify.route({
+        method: "GET",
+        url: "/schemas",
+        handler: (request, reply) => (0, user_controllers_1.getSchemas)(request, reply, fastify),
     });
     done();
 }
