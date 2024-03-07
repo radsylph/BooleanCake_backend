@@ -1,6 +1,6 @@
 export interface IngredientInterface {
-    name: string;
-    price: number;
-    stock: number;
-    unitMeasure: string;
+	name: string;
+	price: number;
+	stock: number;
+	unitMeasure: string;
 }
