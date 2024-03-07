@@ -5,7 +5,10 @@ exports.loginBodySchema = {
     $id: "LoginBody",
     type: "object",
     properties: {
-        email: { type: "string", format: "email" },
+        email: {
+            type: "string",
+            format: "email",
+        },
         password: {
             type: "string",
             minLength: 8,
@@ -19,8 +22,15 @@ exports.createUserBodySchema = {
     properties: {
         name: { type: "string" },
         lastname: { type: "string" },
-        email: { type: "string", format: "email" },
-        password: { type: "string", minLength: 8 },
+        email: {
+            type: "string",
+            format: "email",
+        },
+        password: {
+            type: "string",
+            minLength: 8,
+            pattern: "/^(?=.*W).{8,}$/",
+        },
         cellphone: { type: "string" },
         role: { type: "string", enum: ["admin", "user"] },
     },
