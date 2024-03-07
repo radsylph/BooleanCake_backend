@@ -113,10 +113,19 @@ class UserModule {
 				expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000),
 				sameSite: "strict",
 			});
+			reply.setCookie("role", ExistingUser.role, {
+				path: "/",
+				secure: false, //cambiar si vamos a usar https
+				httpOnly: false,
+				expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000),
+				sameSite: "strict",
+			});
 			console.log(ExistingUser);
 			return reply.code(200).send({
 				message: "User logged in",
 				user: ExistingUser,
+				cookie: token,
+				role: ExistingUser.role,
 			});
 		} catch (error) {
 			console.log(error);
