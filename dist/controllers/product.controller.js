@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllProducts = exports.updateProduct = exports.getProduct = exports.deleteProduct = exports.createProduct = void 0;
+exports.shutdown = exports.getAllProducts = exports.updateProduct = exports.getProduct = exports.deleteProduct = exports.createProduct = void 0;
 const container_1 = require("../config/container");
 const ProductsModule = container_1.PCM.resolve("ProductModule");
 const createProduct = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,3 +32,7 @@ const deleteProduct = (request, reply) => __awaiter(void 0, void 0, void 0, func
     yield ProductsModule.deleteProduct(request, reply);
 });
 exports.deleteProduct = deleteProduct;
+const shutdown = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
+    yield ProductsModule.shutdown(request, reply);
+});
+exports.shutdown = shutdown;
