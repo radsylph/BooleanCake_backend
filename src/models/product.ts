@@ -26,6 +26,7 @@ const ProductsSchema = new mongoose.Schema<ProductsInterface>({
 	image: {
 		type: String,
 		required: false,
+		default: "",
 	},
 	region: {
 		type: String,
@@ -36,3 +37,11 @@ const ProductsSchema = new mongoose.Schema<ProductsInterface>({
 const Products = mongoose.model("Products", ProductsSchema);
 
 export default Products;
+// {
+//   "storage": 25,
+//   "name": "torta de leche",
+//   "expireDate": "2024-04-20",
+//   "category": "tortas",
+//   "region": "USA",
+//   "price": 12
+// }
