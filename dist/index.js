@@ -21,6 +21,7 @@ const fastify_1 = __importDefault(require("fastify"));
 const database_1 = __importDefault(require("./config/database"));
 const ingredient_routes_1 = __importDefault(require("./routes/ingredient.routes"));
 const product_routes_1 = __importDefault(require("./routes/product.routes"));
+const region_routes_1 = __importDefault(require("./routes/region.routes"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const user_schemas_1 = require("./schemas/user.schemas");
 const product_schema_1 = require("./schemas/product.schema");
@@ -49,6 +50,7 @@ server.register(awilix_1.fastifyAwilixPlugin, {
 server.register(user_routes_1.default, { prefix: "api/v1/user" }); // se registra el router de los usuarios con le prefijo
 server.register(product_routes_1.default, { prefix: "api/v1/product" }); // se registra el router de los productos con le prefijo
 server.register(ingredient_routes_1.default, { prefix: "api/v1/ingredient" });
+server.register(region_routes_1.default, { prefix: "api/v1/region" });
 server.addSchema(user_schemas_1.loginBodySchema); // se añade el esquema del login
 server.addSchema(user_schemas_1.createUserBodySchema); // se añade el esquema del crear usuario
 server.addSchema(user_schemas_1.verifyUserParamsSchema); // se añade el esquema de verificar usuario

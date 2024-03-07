@@ -9,6 +9,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import db from "./config/database";
 import ingredientRouter from "./routes/ingredient.routes";
 import productsRouter from "./routes/product.routes";
+import RegionRouter from "./routes/region.routes";
 import userRouter from "./routes/user.routes";
 import {
 	createUserBodySchema,
@@ -49,6 +50,7 @@ server.register(fastifyAwilixPlugin, {
 server.register(userRouter, { prefix: "api/v1/user" }); // se registra el router de los usuarios con le prefijo
 server.register(productsRouter, { prefix: "api/v1/product" }); // se registra el router de los productos con le prefijo
 server.register(ingredientRouter, { prefix: "api/v1/ingredient" });
+server.register(RegionRouter, { prefix: "api/v1/region" });
 
 server.addSchema(loginBodySchema); // se añade el esquema del login
 server.addSchema(createUserBodySchema); // se añade el esquema del crear usuario
