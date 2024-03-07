@@ -24,6 +24,46 @@ function productsRouter(
 	opts: FastifyPluginOptions,
 	done: () => void,
 ) {
+	fastify.register(async (fastify, opts, done) => {
+		await fastify.addHook(
+			"preHandler",
+			async (request: FastifyRequest, reply: FastifyReply) => {
+				const sessionCookie = request.cookies.session;
+				const roleCookie = request.cookies.role;
+				if (
+					!sessionCookie ||
+					sessionCookie === "" ||
+					request.cookies.session === ""
+				) {
+					reply.code(401).send({ message: "Not Authorized" });
+				}
+				if (roleCookie !== "admin" || roleCookie === undefined || !roleCookie) {
+					reply.code(401).send({ message: "Not Authorized" });
+				}
+			},
+		);
+
+		fastify.route({
+			method: "PUT",
+			url: "/update/:id",
+			handler: updateProduct,
+			schema: { body: { $ref: "CreateProductBody" } },
+		});
+		fastify.route({
+			method: "POST",
+			url: "/create",
+			handler: createProduct,
+			schema: { body: { $ref: "CreateProductBody" } },
+		});
+
+		fastify.route({
+			method: "DELETE",
+			url: "/delete/:id", // se le pone el id para que sepa que es un parametro
+			handler: deleteProduct,
+		});
+
+		done();
+	});
 	fastify.route({
 		method: "GET",
 		url: "/getall/:region",
@@ -31,28 +71,9 @@ function productsRouter(
 	});
 
 	fastify.route({
-		method: "PUT",
-		url: "/update/:id",
-		handler: updateProduct,
-		schema: { body: { $ref: "CreateProductBody" } },
-	});
-	fastify.route({
-		method: "POST",
-		url: "/create",
-		handler: createProduct,
-		schema: { body: { $ref: "CreateProductBody" } },
-	});
-
-	fastify.route({
 		method: "GET",
 		url: "/get/:id",
 		handler: getProduct,
-	});
-
-	fastify.route({
-		method: "DELETE",
-		url: "/delete/:id", // se le pone el id para que sepa que es un parametro
-		handler: deleteProduct,
 	});
 
 	done();

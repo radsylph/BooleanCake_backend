@@ -32,7 +32,6 @@ function userRouter(
 				}
 			},
 		);
-
 		fastify.route({
 			method: "GET",
 			url: "/info",
@@ -47,7 +46,6 @@ function userRouter(
 
 		done();
 	});
-
 	fastify.route({
 		method: "POST",
 		url: "/create",
@@ -56,13 +54,11 @@ function userRouter(
 			body: { $ref: "CreateBody#" },
 		},
 	});
-
 	fastify.route({
 		method: "GET",
 		url: "/verify/:token",
 		handler: verifyUser,
 	});
-
 	fastify.route({
 		method: "POST",
 		url: "/login",
@@ -71,7 +67,6 @@ function userRouter(
 			body: { $ref: "LoginBody#" },
 		},
 	});
-
 	fastify.route({
 		method: "GET",
 		url: "/schemas",
