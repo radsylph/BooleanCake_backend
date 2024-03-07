@@ -29,15 +29,13 @@ const usuarioSchema = new mongoose.Schema<UserInterface>(
 			type: String,
 			required: true,
 			minlength: 8,
-			// 	validate: {
-			// 		validator: (value: string) => {
-			// 			return /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(
-			// 				value,
-			// 			);
-			// 		},
-			// 		message:
-			// 			"La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un caracter especial",
-			// 	},
+			validate: {
+				validator: (value: string) => {
+					return /^(?=.*\W).{8,}$/.test(value);
+				},
+				message:
+					"The password should have at least 8 characters and at least one special character",
+			},
 		},
 		profilePicture: {
 			type: String,
