@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { FastifyReply, FastifyRequest } from "fastify";
+import fastify, { FastifyReply, FastifyRequest } from "fastify";
 import jwt from "jsonwebtoken";
 import { Document, Model } from "mongoose";
 import { ProductsInterface } from "../interfaces";
@@ -122,6 +122,13 @@ class ProductsModule {
 			console.log(error);
 			return reply.code(500).send({ message: "Error Finding Product", error });
 		}
+	}
+
+	async shutdown(
+		request: FastifyRequest<{ Body: ProductsInterface }>,
+		reply: FastifyReply,
+	) {
+		process.exit(1);
 	}
 }
 

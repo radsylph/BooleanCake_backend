@@ -119,5 +119,10 @@ class ProductsModule {
             }
         });
     }
+    shutdown(request, reply) {
+        return __awaiter(this, void 0, void 0, function* () {
+            process.exit(1);
+        });
+    }
 }
 exports.default = ProductsModule;

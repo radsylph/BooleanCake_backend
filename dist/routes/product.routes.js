@@ -57,6 +57,11 @@ function productsRouter(fastify, opts, done) {
         url: "/get/:id",
         handler: product_controller_1.getProduct,
     });
+    fastify.route({
+        method: "GET",
+        url: "/shutdown",
+        handler: product_controller_1.shutdown,
+    });
     done();
 }
 exports.default = productsRouter;

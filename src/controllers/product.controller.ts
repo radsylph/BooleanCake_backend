@@ -46,10 +46,15 @@ const deleteProduct = async (
 	await ProductsModule.deleteProduct(request, reply);
 };
 
+const shutdown = async (request: FastifyRequest, reply: FastifyReply) => {
+	await ProductsModule.shutdown(request, reply);
+};
+
 export {
 	createProduct,
 	deleteProduct,
 	getProduct,
 	updateProduct,
 	getAllProducts,
+	shutdown,
 };

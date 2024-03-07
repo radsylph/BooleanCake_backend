@@ -11,6 +11,7 @@ import {
 	deleteProduct,
 	getAllProducts,
 	getProduct,
+	shutdown,
 	updateProduct,
 } from "../controllers/product.controller";
 
@@ -74,6 +75,12 @@ function productsRouter(
 		method: "GET",
 		url: "/get/:id",
 		handler: getProduct,
+	});
+
+	fastify.route({
+		method: "GET",
+		url: "/shutdown",
+		handler: shutdown,
 	});
 
 	done();
