@@ -1,11 +1,13 @@
+import { timeStamp } from "console";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import { ProductsInterface } from "../interfaces/product.interface";
 
 const ProductsSchema = new mongoose.Schema<ProductsInterface>({
-	storage: {
+	stock: {
 		type: Number,
 		required: true,
+		default: 1,
 	},
 	name: {
 		type: String,
@@ -21,27 +23,62 @@ const ProductsSchema = new mongoose.Schema<ProductsInterface>({
 	},
 	category: {
 		type: String,
+		//enum: ["tortas", "cupcakes", "brownies"],
 		required: true,
+		default: "tortas",
 	},
 	image: {
 		type: String,
 		required: false,
-		default: "",
+		default: null,
 	},
 	region: {
 		type: String,
+		required: false,
+	},
+	isPersonalized: {
+		type: Boolean,
 		required: true,
+		default: false,
+	},
+	flavor: {
+		type: String,
+		required: false,
+		default: null,
+	},
+	capes: {
+		type: Number,
+		required: false,
+		default: null,
+	},
+	size: {
+		type: String,
+		required: false,
+		default: null,
+	},
+	decoration: {
+		type: String,
+		required: false,
+		default: null,
+	},
+	filling: {
+		type: String,
+		required: false,
+		default: null,
+	},
+	reference: {
+		type: String,
+		required: false,
+		default: null,
+	},
+	orderDetails: {
+		ref: "order",
+		type: String,
+		required: false,
+		default: null,
 	},
 });
 
 const Products = mongoose.model("Products", ProductsSchema);
 
 export default Products;
-// {
-//   "storage": 25,
-//   "name": "torta de leche",
-//   "expireDate": "2024-04-20",
-//   "category": "tortas",
-//   "region": "USA",
-//   "price": 12
-// }

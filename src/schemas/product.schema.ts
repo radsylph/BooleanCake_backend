@@ -2,7 +2,7 @@ export const CreateProductBodySchema = {
 	$id: "CreateProductBody",
 	type: "object",
 	properties: {
-		storage: { type: "number" },
+		stock: { type: "number" },
 		name: {
 			type: "string",
 		},
@@ -11,6 +11,22 @@ export const CreateProductBodySchema = {
 		category: { type: "string" },
 		image: { type: "string" },
 		region: { type: "string" },
+		isPersonalized: { type: "boolean" },
+		flavor: { type: "string" },
+		capes: { type: "number" },
+		size: { type: "string" },
+		decoration: { type: "string" },
+		filling: { type: "string" },
+		reference: { type: "string" },
+		orderDetails: { type: "string" },
 	},
-	required: ["storage", "name", "expireDate", "category", "region", "price"],
+	required: [
+		"stock",
+		"name",
+		"expireDate",
+		"category",
+		"region",
+		"price",
+		"isPersonalized",
+	],
 };
