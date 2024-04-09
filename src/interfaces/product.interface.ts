@@ -1,7 +1,7 @@
 import { OrderInterface } from "./order.interface";
 
 export interface ProductsInterface {
-	storage: number;
+	stock: number;
 	name: string;
 	price: number;
 	expireDate: Date;

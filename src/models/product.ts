@@ -4,9 +4,10 @@ import mongoose from "mongoose";
 import { ProductsInterface } from "../interfaces/product.interface";
 
 const ProductsSchema = new mongoose.Schema<ProductsInterface>({
-	storage: {
+	stock: {
 		type: Number,
 		required: true,
+		default: 1,
 	},
 	name: {
 		type: String,
@@ -22,13 +23,14 @@ const ProductsSchema = new mongoose.Schema<ProductsInterface>({
 	},
 	category: {
 		type: String,
-		enum: ["tortas", "cupcakes", "brownie"],
+		//enum: ["tortas", "cupcakes", "brownies"],
 		required: true,
+		default: "tortas",
 	},
 	image: {
 		type: String,
 		required: false,
-		default: "",
+		default: null,
 	},
 	region: {
 		type: String,
@@ -42,7 +44,7 @@ const ProductsSchema = new mongoose.Schema<ProductsInterface>({
 	flavor: {
 		type: String,
 		required: false,
-		default: "",
+		default: null,
 	},
 	capes: {
 		type: Number,
@@ -52,28 +54,28 @@ const ProductsSchema = new mongoose.Schema<ProductsInterface>({
 	size: {
 		type: String,
 		required: false,
-		default: "",
+		default: null,
 	},
 	decoration: {
 		type: String,
 		required: false,
-		default: "",
+		default: null,
 	},
 	filling: {
 		type: String,
 		required: false,
-		default: "",
+		default: null,
 	},
 	reference: {
 		type: String,
 		required: false,
-		default: "",
+		default: null,
 	},
 	orderDetails: {
 		ref: "order",
 		type: String,
 		required: false,
-		default: "",
+		default: null,
 	},
 });
 
