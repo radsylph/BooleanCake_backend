@@ -29,7 +29,7 @@ exports.createUserBodySchema = {
         password: {
             type: "string",
             minLength: 8,
-            pattern: "/^(?=.*W).{8,}$/",
+            //pattern: "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$", //ver que pasa con la expresion regular
         },
         cellphone: { type: "string" },
         role: { type: "string", enum: ["admin", "user"] },

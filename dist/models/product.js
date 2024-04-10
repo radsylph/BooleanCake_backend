@@ -5,9 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const ProductsSchema = new mongoose_1.default.Schema({
-    storage: {
+    stock: {
         type: Number,
         required: true,
+        default: 1,
     },
     name: {
         type: String,
@@ -23,25 +24,60 @@ const ProductsSchema = new mongoose_1.default.Schema({
     },
     category: {
         type: String,
+        //enum: ["tortas", "cupcakes", "brownies"],
         required: true,
+        default: "tortas",
     },
     image: {
         type: String,
         required: false,
-        default: "",
+        default: null,
     },
     region: {
         type: String,
+        required: false,
+    },
+    isPersonalized: {
+        type: Boolean,
         required: true,
+        default: false,
+    },
+    flavor: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    capes: {
+        type: Number,
+        required: false,
+        default: null,
+    },
+    size: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    decoration: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    filling: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    reference: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    orderDetails: {
+        ref: "order",
+        type: String,
+        required: false,
+        default: null,
     },
 });
 const Products = mongoose_1.default.model("Products", ProductsSchema);
 exports.default = Products;
-// {
-//   "storage": 25,
-//   "name": "torta de leche",
-//   "expireDate": "2024-04-20",
-//   "category": "tortas",
-//   "region": "USA",
-//   "price": 12
-// }
