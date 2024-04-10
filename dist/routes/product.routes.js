@@ -59,6 +59,16 @@ function productsRouter(fastify, opts, done) {
     });
     fastify.route({
         method: "GET",
+        url: "/getinstock/:region",
+        handler: product_controller_1.GetInStock
+    });
+    fastify.route({
+        method: "GET",
+        url: "/getnocustom/:region",
+        handler: product_controller_1.GetNoCustom
+    });
+    fastify.route({
+        method: "GET",
         url: "/shutdown",
         handler: product_controller_1.shutdown,
     });

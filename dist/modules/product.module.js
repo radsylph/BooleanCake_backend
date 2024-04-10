@@ -119,6 +119,32 @@ class ProductsModule {
             }
         });
     }
+    GetInStock(request, reply) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const regionDetail = request.params;
+            try {
+                const AllInStock = yield this.Product.find({ region: regionDetail.region, stock: { $gte: 1 } });
+                return reply.code(202).send({ message: "Products Finded", data: AllInStock });
+            }
+            catch (error) {
+                console.log(error);
+                return reply.code(500).send({ message: "no products finded", error });
+            }
+        });
+    }
+    GetNoCustom(request, reply) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const regionDetail = request.params;
+            try {
+                const AllInStock = yield this.Product.find({ region: regionDetail.region, isPersonalized: false });
+                return reply.code(202).send({ message: "Products Finded", data: AllInStock });
+            }
+            catch (error) {
+                console.log(error);
+                return reply.code(500).send({ message: "no products finded", error });
+            }
+        });
+    }
     shutdown(request, reply) {
         return __awaiter(this, void 0, void 0, function* () {
             process.exit(1);

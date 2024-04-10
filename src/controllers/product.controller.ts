@@ -46,6 +46,16 @@ const deleteProduct = async (
 	await ProductsModule.deleteProduct(request, reply);
 };
 
+const GetInStock =async(request: FastifyRequest<{ Body: BodyType }>,
+	reply: FastifyReply) =>{
+		await ProductsModule.GetInStock(request,reply);
+	}
+
+	const GetNoCustom =async(request: FastifyRequest<{ Body: BodyType }>,
+		reply: FastifyReply) =>{
+			await ProductsModule.GetNoCustom(request,reply);
+		}
+
 const shutdown = async (request: FastifyRequest, reply: FastifyReply) => {
 	await ProductsModule.shutdown(request, reply);
 };
@@ -56,5 +66,7 @@ export {
 	getProduct,
 	updateProduct,
 	getAllProducts,
+	GetInStock,
+	GetNoCustom,
 	shutdown,
 };

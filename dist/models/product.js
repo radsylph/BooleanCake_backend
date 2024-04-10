@@ -72,6 +72,7 @@ const ProductsSchema = new mongoose_1.default.Schema({
         required: false,
         default: null,
     },
+    },
 });
 const Products = mongoose_1.default.model("Products", ProductsSchema);
 // ProductsSchema.pre("save", const trigger = async (next) => {
