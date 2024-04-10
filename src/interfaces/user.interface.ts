@@ -10,5 +10,6 @@ export interface UserInterface {
 	token: string | null;
 	verify: boolean;
 	timestamps?: boolean;
+	money: number;
 	verificarPassword: (password: string) => Promise<boolean>;
 }
