@@ -117,9 +117,7 @@ class OrderModule {
 	async getOrderDetails(request: FastifyRequest, reply: FastifyReply) {
 		const { id } = request.params as { id: string };
 		try {
-			const order = await this.Order.findById(id)
-				.populate("owner", "location")
-				.exec();
+			const order = await this.Order.findById(id).populate("location").exec();
 			return reply.code(200).send({ message: "Orden found", order });
 		} catch (error) {
 			console.log(error);

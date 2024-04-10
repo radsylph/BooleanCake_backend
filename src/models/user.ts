@@ -60,6 +60,10 @@ const usuarioSchema = new mongoose.Schema<UserInterface>(
 			type: Boolean,
 			default: false,
 		},
+		money: {
+			type: Number,
+			default: 0,
+		},
 	},
 	{
 		timestamps: true,

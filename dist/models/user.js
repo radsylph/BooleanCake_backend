@@ -68,6 +68,10 @@ const usuarioSchema = new mongoose_1.default.Schema({
         type: Boolean,
         default: false,
     },
+    money: {
+        type: Number,
+        default: 0,
+    },
 }, {
     timestamps: true,
 });

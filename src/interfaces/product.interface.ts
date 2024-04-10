@@ -1,6 +1,7 @@
 import { OrderInterface } from "./order.interface";
 
 export interface ProductsInterface {
+	serial: number;
 	stock: number;
 	name: string;
 	price: number;
@@ -9,11 +10,10 @@ export interface ProductsInterface {
 	image: string;
 	region: string;
 	isPersonalized: boolean;
-	flavor: string;
+	flavor: string | null;
 	capes: number | null;
-	size: string;
-	decoration: string;
-	filling: string;
-	reference: string;
-	orderDetails: string;
+	size: string | null;
+	decoration: string | null;
+	filling: string | null;
+	reference: string | null;
 }
