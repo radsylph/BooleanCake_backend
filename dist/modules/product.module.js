@@ -45,7 +45,7 @@ class ProductsModule {
                         .send({ message: "Product not found", data: Product_id });
                 }
                 const ProductDetails = yield this.Product.findByIdAndUpdate(Product_id.id, {
-                    storage: Product_Changes.storage,
+                    stock: Product_Changes.stock,
                     name: Product_Changes.name,
                     price: Product_Changes.price,
                     expireDate: Product_Changes.expireDate,
@@ -116,6 +116,32 @@ class ProductsModule {
             catch (error) {
                 console.log(error);
                 return reply.code(500).send({ message: "Error Finding Product", error });
+            }
+        });
+    }
+    GetInStock(request, reply) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const regionDetail = request.params;
+            try {
+                const AllInStock = yield this.Product.find({ region: regionDetail.region, stock: { $gte: 1 } });
+                return reply.code(202).send({ message: "Products Finded", data: AllInStock });
+            }
+            catch (error) {
+                console.log(error);
+                return reply.code(500).send({ message: "no products finded", error });
+            }
+        });
+    }
+    GetNoCustom(request, reply) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const regionDetail = request.params;
+            try {
+                const AllInStock = yield this.Product.find({ region: regionDetail.region, isPersonalized: false });
+                return reply.code(202).send({ message: "Products Finded", data: AllInStock });
+            }
+            catch (error) {
+                console.log(error);
+                return reply.code(500).send({ message: "no products finded", error });
             }
         });
     }

@@ -34,7 +34,7 @@ function userRouter(fastify, opts, done) {
     }));
     fastify.route({
         method: "POST",
-        url: "/create",
+        url: "/",
         handler: user_controllers_1.createUser,
         schema: {
             body: { $ref: "CreateBody#" },
