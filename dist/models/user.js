@@ -57,7 +57,7 @@ const usuarioSchema = new mongoose_1.default.Schema({
     },
     role: {
         type: String,
-        enum: ["admin", "user"],
+        enum: ["admin", "user", "rider"],
         default: "user",
     },
     token: {
@@ -67,6 +67,10 @@ const usuarioSchema = new mongoose_1.default.Schema({
     verify: {
         type: Boolean,
         default: false,
+    },
+    money: {
+        type: Number,
+        default: 0,
     },
 }, {
     timestamps: true,

@@ -71,14 +71,16 @@ const ProductsSchema = new mongoose.Schema<ProductsInterface>({
 		required: false,
 		default: null,
 	},
-	orderDetails: {
-		ref: "order",
-		type: String,
-		required: false,
-		default: null,
-	},
 });
-
 const Products = mongoose.model("Products", ProductsSchema);
+
+// ProductsSchema.pre("save", const trigger = async (next) => {
+// 	// const lastSerial = this.serial + 1;
+// 	// this.serial = lastSerial;
+	
+	
+// 	next();
+
+// });
 
 export default Products;

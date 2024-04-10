@@ -45,7 +45,7 @@ class ProductsModule {
                         .send({ message: "Product not found", data: Product_id });
                 }
                 const ProductDetails = yield this.Product.findByIdAndUpdate(Product_id.id, {
-                    storage: Product_Changes.storage,
+                    stock: Product_Changes.stock,
                     name: Product_Changes.name,
                     price: Product_Changes.price,
                     expireDate: Product_Changes.expireDate,

@@ -1,39 +1,38 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RCM = exports.ICM = exports.PCM = exports.UCM = void 0;
+exports.OCM = exports.RCM = exports.ICM = exports.PCM = exports.UCM = void 0;
 const awilix_1 = require("awilix");
-const ingredient_1 = __importDefault(require("../models/ingredient"));
-const product_1 = __importDefault(require("../models/product"));
-const region_1 = __importDefault(require("../models/region"));
-const user_1 = __importDefault(require("../models/user"));
-const ingredient_module_1 = __importDefault(require("../modules/ingredient.module"));
-const product_module_1 = __importDefault(require("../modules/product.module"));
-const region_module_1 = __importDefault(require("../modules/region.module"));
-const user_module_1 = __importDefault(require("../modules/user.module"));
+const models_1 = require("../models");
+const modules_1 = require("../modules");
 const UCM = (0, awilix_1.createContainer)(); //User Container Module
 exports.UCM = UCM;
 const PCM = (0, awilix_1.createContainer)(); //Product Container Module
 exports.PCM = PCM;
 const ICM = (0, awilix_1.createContainer)(); //Invoice Container Module
 exports.ICM = ICM;
-const RCM = (0, awilix_1.createContainer)();
+const RCM = (0, awilix_1.createContainer)(); //Region Container Module
 exports.RCM = RCM;
+const OCM = (0, awilix_1.createContainer)(); //Order Container Module
+exports.OCM = OCM;
 UCM.register({
-    UserModule: (0, awilix_1.asClass)(user_module_1.default).singleton(),
-    userModel: (0, awilix_1.asValue)(user_1.default),
+    UserModule: (0, awilix_1.asClass)(modules_1.UserModule).singleton(),
+    userModel: (0, awilix_1.asValue)(models_1.User),
 });
 PCM.register({
-    ProductModule: (0, awilix_1.asClass)(product_module_1.default).singleton(),
-    ProductModel: (0, awilix_1.asValue)(product_1.default),
+    ProductModule: (0, awilix_1.asClass)(modules_1.ProductsModule).singleton(),
+    ProductModel: (0, awilix_1.asValue)(models_1.Product),
 });
 ICM.register({
-    IngridientModule: (0, awilix_1.asClass)(ingredient_module_1.default).singleton(),
-    IngredientModel: (0, awilix_1.asValue)(ingredient_1.default),
+    IngridientModule: (0, awilix_1.asClass)(modules_1.IngredientModule).singleton(),
+    IngredientModel: (0, awilix_1.asValue)(models_1.Ingredient),
 });
 RCM.register({
-    RegionModule: (0, awilix_1.asClass)(region_module_1.default).singleton(),
-    RegionModel: (0, awilix_1.asValue)(region_1.default),
+    RegionModule: (0, awilix_1.asClass)(modules_1.RegionModule).singleton(),
+    RegionModel: (0, awilix_1.asValue)(models_1.Region),
+});
+OCM.register({
+    OrderModule: (0, awilix_1.asClass)(modules_1.OrderModule).singleton(),
+    OrderModel: (0, awilix_1.asValue)(models_1.Order),
+    UserModel: (0, awilix_1.asValue)(models_1.User),
+    LocationModel: (0, awilix_1.asValue)(models_1.Location),
 });
