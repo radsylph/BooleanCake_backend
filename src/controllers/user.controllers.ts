@@ -23,6 +23,10 @@ const logOutUser = async (request: FastifyRequest, reply: FastifyReply) => {
 	await userModule.logOutUser(request, reply);
 };
 
+const editUser = async (request: FastifyRequest, reply: FastifyReply) => {
+	await userModule.editUser(request, reply);
+};
+
 const getSchemas = async (
 	request: FastifyRequest,
 	reply: FastifyReply,
@@ -39,4 +43,5 @@ export {
 	getUserInfo,
 	logOutUser,
 	getSchemas,
+	editUser,
 };

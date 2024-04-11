@@ -159,6 +159,30 @@ class UserModule {
 			return reply.code(500).send({ message: "Error logging out", error });
 		}
 	}
+
+	async editUser(
+		request: FastifyRequest<{ Body: UserInterface }>,
+		reply: FastifyReply,
+	) {
+		const cookieSession = request.cookies.session;
+		const user_id: any = decryptToken(cookieSession);
+		const { name, lastname, email, cellphone, role } = request.body;
+		try {
+			const user = await this.User.findOne({ _id: user_id.id });
+			if (!user) {
+				return reply.code(404).send({ message: "User not found" });
+			}
+			user.name = name;
+			user.lastname = lastname;
+			user.email = email;
+			user.cellphone = cellphone;
+			user.role = role;
+			await user.save();
+			return reply.code(200).send({ message: "User updated", user });
+		} catch (error) {
+			return reply.code(500).send({ message: "Error updating user", error });
+		}
+	}
 }
 
 export default UserModule;

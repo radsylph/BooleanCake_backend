@@ -6,6 +6,7 @@ import {
 } from "fastify";
 import {
 	createUser,
+	editUser,
 	getSchemas,
 	getUserInfo,
 	logOutUser,
@@ -42,6 +43,12 @@ function userRouter(
 			method: "DELETE",
 			url: "/logout",
 			handler: logOutUser,
+		});
+
+		fastify.route({
+			method: "PUT",
+			url: "/edit",
+			handler: editUser,
 		});
 
 		done();
