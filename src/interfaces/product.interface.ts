@@ -1,7 +1,6 @@
 import { OrderInterface } from "./order.interface";
 
 export interface ProductsInterface {
-	serial: number;
 	stock: number;
 	name: string;
 	price: number;
@@ -17,3 +16,4 @@ export interface ProductsInterface {
 	filling: string | null;
 	reference: string | null;
 }
+

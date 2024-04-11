@@ -19,10 +19,11 @@ export interface OrderInterface {
 	totalPrice: number;
 	isExpress: boolean;
 	isDelivery: boolean;
+	deliveryDate: Date;
+	deliveryHour: string;
 }
 
 export interface LocationInterface {
-	order: string;
 	user: string;
 	isFav: boolean;
 	latitude: string;
@@ -32,7 +33,13 @@ export interface LocationInterface {
 
 export interface OrderInterfaceExtended extends OrderInterface {
 	_id: string;
+	cart: string;
 	latitude: string;
 	longitude: string;
 	address: string;
+}
+
+export interface OrderRowInterface {
+	product: string;
+	order: string;
 }

@@ -5,10 +5,14 @@ import fastify, {
 	FastifyRequest,
 } from "fastify";
 import {
+	addToCart,
+	buyCart,
 	createOrder,
 	getAllOrders,
+	getCart,
 	getOrderDetails,
 	getUserOrders,
+	removeFromCart,
 	testEmail1,
 	testRider,
 	updateOrder,
@@ -40,24 +44,44 @@ function orderRouter(
 		});
 		fastify.route({
 			method: "POST",
-			url: "/",
-			handler: createOrder,
+			url: "/cart/:product",
+			handler: addToCart,
+		});
+		fastify.route({
+			method: "DELETE",
+			url: "/cart/:product",
+			handler: removeFromCart,
 		});
 		fastify.route({
 			method: "GET",
-			url: "/",
-			handler: getAllOrders,
+			url: "/cart",
+			handler: getCart,
 		});
 		fastify.route({
-			method: "GET",
-			url: "/user/:id",
-			handler: getUserOrders,
+			method: "POST",
+			url: "/cart/buy",
+			handler: buyCart,
 		});
-		fastify.route({
-			method: "GET",
-			url: "/:id",
-			handler: getOrderDetails,
-		});
+		// fastify.route({
+		// 	method: "POST",
+		// 	url: "/",
+		// 	handler: createOrder,
+		// });
+		// fastify.route({
+		// 	method: "GET",
+		// 	url: "/",
+		// 	handler: getAllOrders,
+		// });
+		// fastify.route({
+		// 	method: "GET",
+		// 	url: "/user/:id",
+		// 	handler: getUserOrders,
+		// });
+		// fastify.route({
+		// 	method: "GET",
+		// 	url: "/:id",
+		// 	handler: getOrderDetails,
+		// });
 		done();
 	});
 

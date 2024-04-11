@@ -28,6 +28,21 @@ const getOrderDetails = async (
 	await orderModule.getOrderDetails(request, reply);
 };
 
+const addToCart = async (request: FastifyRequest, reply: FastifyReply) => {
+	await orderModule.addToCart(request, reply);
+};
+
+const buyCart = async (request: FastifyRequest, reply: FastifyReply) => {
+	await orderModule.buyCart(request, reply);
+};
+const removeFromCart = async (request: FastifyRequest, reply: FastifyReply) => {
+	await orderModule.removeFromCart(request, reply);
+};
+
+const getCart = async (request: FastifyRequest, reply: FastifyReply) => {
+	await orderModule.getCart(request, reply);
+};
+
 const testRider = async (request: FastifyRequest, reply: FastifyReply) => {
 	await orderModule.testRider(request, reply);
 };
@@ -44,4 +59,8 @@ export {
 	getOrderDetails,
 	testRider,
 	updateOrder,
+	addToCart,
+	removeFromCart,
+	getCart,
+	buyCart,
 };

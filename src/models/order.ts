@@ -22,7 +22,7 @@ const OrderSchema = new mongoose.Schema<OrderInterface>(
 		location: {
 			type: String,
 			ref: "Location",
-			required: true,
+			required: false,
 			default: "none",
 		},
 		status: {
@@ -44,6 +44,16 @@ const OrderSchema = new mongoose.Schema<OrderInterface>(
 			type: Boolean,
 			required: true,
 			default: false,
+		},
+		deliveryDate: {
+			type: Date,
+			required: false,
+			default: new Date(),
+		},
+		deliveryHour: {
+			type: String,
+			required: false,
+			default: "none",
 		},
 	},
 	{

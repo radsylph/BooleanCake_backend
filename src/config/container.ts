@@ -1,5 +1,15 @@
 import { asClass, asValue, createContainer } from "awilix";
-import { Ingredient, Location, Order, Product, Region, User } from "../models";
+import {
+	Ingredient,
+	Location,
+	Order,
+	OrderRow,
+	Product,
+	Region,
+	ShoppingCart,
+	ShoppingCartRow,
+	User,
+} from "../models";
 import {
 	IngredientModule,
 	OrderModule,
@@ -41,7 +51,11 @@ RCM.register({
 OCM.register({
 	OrderModule: asClass(OrderModule).singleton(),
 	OrderModel: asValue(Order),
+	OrderRowModel: asValue(OrderRow),
 	UserModel: asValue(User),
+	ProductModel: asValue(Product),
+	ShoppingCartModel: asValue(ShoppingCart),
+	ShoppingCartRowModel: asValue(ShoppingCartRow),
 	LocationModel: asValue(Location),
 });
 

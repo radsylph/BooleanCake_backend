@@ -8,13 +8,8 @@ const LocationSchema = new mongoose.Schema<LocationInterface>({
 	},
 	isFav: {
 		type: Boolean,
-		required: true,
+		required: false,
 		default: false,
-	},
-	order: {
-		type: String,
-		required: true,
-		ref: "Order",
 	},
 	latitude: {
 		type: String,
