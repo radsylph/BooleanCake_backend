@@ -47,7 +47,7 @@ function userRouter(
 
 		fastify.route({
 			method: "PUT",
-			url: "/edit",
+			url: "/update",
 			handler: editUser,
 		});
 
