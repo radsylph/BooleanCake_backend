@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSchemas = exports.logOutUser = exports.getUserInfo = exports.loginUser = exports.verifyUser = exports.createUser = void 0;
+exports.editUser = exports.getSchemas = exports.logOutUser = exports.getUserInfo = exports.loginUser = exports.verifyUser = exports.createUser = void 0;
 const container_1 = require("../config/container");
 const userModule = container_1.UCM.resolve("UserModule");
 const createUser = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,6 +32,10 @@ const logOutUser = (request, reply) => __awaiter(void 0, void 0, void 0, functio
     yield userModule.logOutUser(request, reply);
 });
 exports.logOutUser = logOutUser;
+const editUser = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
+    yield userModule.editUser(request, reply);
+});
+exports.editUser = editUser;
 const getSchemas = (request, reply, fastify) => __awaiter(void 0, void 0, void 0, function* () {
     const schemas = fastify.getSchemas();
     yield reply.code(200).send(schemas);

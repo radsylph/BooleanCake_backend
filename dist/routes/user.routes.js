@@ -30,6 +30,11 @@ function userRouter(fastify, opts, done) {
             url: "/logout",
             handler: user_controllers_1.logOutUser,
         });
+        fastify.route({
+            method: "PUT",
+            url: "/update",
+            handler: user_controllers_1.editUser,
+        });
         done();
     }));
     fastify.route({

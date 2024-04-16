@@ -33,6 +33,10 @@ RCM.register({
 OCM.register({
     OrderModule: (0, awilix_1.asClass)(modules_1.OrderModule).singleton(),
     OrderModel: (0, awilix_1.asValue)(models_1.Order),
+    OrderRowModel: (0, awilix_1.asValue)(models_1.OrderRow),
     UserModel: (0, awilix_1.asValue)(models_1.User),
+    ProductModel: (0, awilix_1.asValue)(models_1.Product),
+    ShoppingCartModel: (0, awilix_1.asValue)(models_1.ShoppingCart),
+    ShoppingCartRowModel: (0, awilix_1.asValue)(models_1.ShoppingCartRow),
     LocationModel: (0, awilix_1.asValue)(models_1.Location),
 });

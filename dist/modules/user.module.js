@@ -161,5 +161,28 @@ class UserModule {
             }
         });
     }
+    editUser(request, reply) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const cookieSession = request.cookies.session;
+            const user_id = (0, generateToken_1.decryptToken)(cookieSession);
+            const { name, lastname, email, cellphone, role } = request.body;
+            try {
+                const user = yield this.User.findOne({ _id: user_id.id });
+                if (!user) {
+                    return reply.code(404).send({ message: "User not found" });
+                }
+                user.name = name;
+                user.lastname = lastname;
+                user.email = email;
+                user.cellphone = cellphone;
+                user.role = role;
+                yield user.save();
+                return reply.code(200).send({ message: "User updated", user });
+            }
+            catch (error) {
+                return reply.code(500).send({ message: "Error updating user", error });
+            }
+        });
+    }
 }
 exports.default = UserModule;
