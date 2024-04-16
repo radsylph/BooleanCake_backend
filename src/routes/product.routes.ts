@@ -1,4 +1,5 @@
 import { create } from "domain";
+import { METHODS } from "http";
 import fastify from "fastify";
 import {
 	FastifyInstance,
@@ -7,16 +8,15 @@ import {
 	FastifyRequest,
 } from "fastify";
 import {
+	GetInStock,
+	GetNoCustom,
 	createProduct,
 	deleteProduct,
 	getAllProducts,
 	getProduct,
-	GetInStock,
-	GetNoCustom,
 	shutdown,
 	updateProduct,
 } from "../controllers/product.controller";
-import { METHODS } from "http";
 
 // export const router = async (fastify: FastifyInstance, options: any) => {
 // 	fastify.post("/test", test1).get("/test", test2).get("/test/:id", test3);
@@ -66,6 +66,16 @@ function productsRouter(
 			handler: deleteProduct,
 		});
 
+		fastify.route({
+			method: "GET",
+			url: "/testCookie",
+			handler: (request, reply) => {
+				const cookie1 = request.cookies.session;
+				const cookie2 = request.cookies.role;
+				reply.code(200).send({ cookie1, cookie2 });
+			},
+		});
+
 		done();
 	});
 	fastify.route({
@@ -81,16 +91,16 @@ function productsRouter(
 	});
 
 	fastify.route({
-		method:"GET",
-		url:"/getinstock/:region",
-		handler: GetInStock
-	})
+		method: "GET",
+		url: "/getinstock/:region",
+		handler: GetInStock,
+	});
 
 	fastify.route({
-		method:"GET",
-		url:"/getnocustom/:region",
-		handler: GetNoCustom
-	})
+		method: "GET",
+		url: "/getnocustom/:region",
+		handler: GetNoCustom,
+	});
 
 	fastify.route({
 		method: "GET",
