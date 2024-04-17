@@ -38,7 +38,7 @@ server.register(session_1.fastifySession, {
     secret: process.env.SECRET_COOKIE, // se pone el secreto de la cookie
 });
 server.register(cors_1.default, {
-    origin: "*", // Permite todas las origenes
+    origin: "http://localhost:5173", // Permite todas las origenes
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Permite estos métodos
     allowedHeaders: ["Content-Type", "Authorization", "Origin", "Accept"], // Permite estos encabezados
     credentials: true, // Permite cookies
