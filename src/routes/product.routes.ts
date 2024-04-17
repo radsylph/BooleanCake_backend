@@ -65,19 +65,19 @@ function productsRouter(
 			url: "/delete/:id", // se le pone el id para que sepa que es un parametro
 			handler: deleteProduct,
 		});
-
-		fastify.route({
-			method: "GET",
-			url: "/testCookie",
-			handler: (request, reply) => {
-				const cookie1 = request.cookies.session;
-				const cookie2 = request.cookies.role;
-				reply.code(200).send({ cookie1, cookie2 });
-			},
-		});
-
 		done();
 	});
+
+	fastify.route({
+		method: "GET",
+		url: "/testCookie",
+		handler: (request, reply) => {
+			const cookie1 = request.cookies.session;
+			const cookie2 = request.cookies.role;
+			reply.code(200).send({ cookie1, cookie2 });
+		},
+	});
+
 	fastify.route({
 		method: "GET",
 		url: "/getall/:region",
