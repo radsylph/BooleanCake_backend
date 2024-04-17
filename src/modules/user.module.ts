@@ -109,17 +109,17 @@ class UserModule {
 			reply.setCookie("session", token, {
 				path: "/",
 				secure: false, //cambiar si vamos a usar https
-				httpOnly: false,
+				httpOnly: true,
 				expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000),
-				sameSite: "strict",
+				sameSite: "none",
 				signed: false,
 			});
 			reply.setCookie("role", ExistingUser.role, {
 				path: "/",
 				secure: false, //cambiar si vamos a usar https
-				httpOnly: false,
+				httpOnly: true,
 				expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000),
-				sameSite: "strict",
+				sameSite: "none",
 			});
 			console.log(ExistingUser);
 			return reply.code(200).send({
