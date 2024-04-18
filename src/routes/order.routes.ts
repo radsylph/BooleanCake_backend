@@ -6,6 +6,7 @@ import fastify, {
 } from "fastify";
 import {
 	addToCart,
+	assignRider,
 	buyCart,
 	createOrder,
 	getAllOrders,
@@ -72,16 +73,16 @@ function orderRouter(
 		// 	url: "/",
 		// 	handler: getAllOrders,
 		// });
-		// fastify.route({
-		// 	method: "GET",
-		// 	url: "/user/:id",
-		// 	handler: getUserOrders,
-		// });
-		// fastify.route({
-		// 	method: "GET",
-		// 	url: "/:id",
-		// 	handler: getOrderDetails,
-		// });
+		fastify.route({
+			method: "GET",
+			url: "/user/:id",
+			handler: getUserOrders,
+		});
+		fastify.route({
+			method: "GET",
+			url: "/:id",
+			handler: getOrderDetails,
+		});
 		done();
 	});
 
@@ -104,6 +105,13 @@ function orderRouter(
 			url: "/testrider",
 			handler: testRider,
 		});
+
+		fastify.route({
+			method: "POST",
+			url: "/rider/:id",
+			handler: assignRider,
+		});
+
 		fastify.route({
 			method: "PUT",
 			url: "/:id",

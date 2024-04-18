@@ -143,6 +143,48 @@ class OrderModule {
 		}
 	}
 
+	async createCustomOrder(
+		request: FastifyRequest<{ Body: ProductsInterface }>,
+		reply: FastifyReply,
+	) {
+		const userCookie = request.cookies.session;
+		const {
+			name,
+			category,
+			isPersonalized,
+			flavor,
+			capes,
+			size,
+			decoration,
+			filling,
+			reference,
+		} = request.body;
+
+		try {
+			const user_id: any = decryptToken(userCookie);
+			const existingUser = await this.User.findById(user_id.id).exec();
+			if (!existingUser) {
+				return reply.code(404).send({ message: "User not found" });
+			}
+			let existingCart = await this.ShoppingCart.findOne({
+				owner: user_id.id,
+			}).exec();
+			
+			if (!existingCart) {
+				existingCart = await this.ShoppingCart.create({
+					owner: user_id.id,
+					totalPrice: 0,
+					totalItems: 1,
+				});
+				await existingCart.save();
+			}
+		} catch (error) {
+			return reply
+				.code(500)
+				.send({ message: "Error creating custom order", error });
+		}
+	}
+
 	async removeFromCart(
 		request: FastifyRequest<{
 			Params: ShoppingCartRowsInterface;
@@ -300,21 +342,6 @@ class OrderModule {
 				productsList: cartProducts.productsList,
 			});
 
-			// const cartProducts = await this.ShoppingCartRow.find({
-			// 	cart: existingCart._id,
-			// }).exec();
-			// if (!cartProducts) {
-			// 	return reply.code(404).send({ message: "Cart is empty" });
-			// }
-
-			// const orderProducts = cartProducts.map(async (product: any) => {
-			// 	await this.ShoppingCartRow.findByIdAndDelete(product._id);
-			// 	await this.OrderRow.create({
-			// 		product: product.product,
-			// 		order: newOrder._id,
-			// 	});
-			// });
-
 			const deletedCart = await this.ShoppingCart.findOneAndDelete(
 				user_id.id,
 			).exec();
@@ -329,7 +356,7 @@ class OrderModule {
 				console.log(error);
 				return reply.code(500).send({ message: "Error sending email", error });
 			}
-			return reply.code(201).send({ message: "Order created", deletedCart });
+			return reply.code(201).send({ message: "Order created", newOrder });
 		} catch (error) {
 			console.log(error);
 			return reply.code(500).send({ message: "Error creating order", error });
@@ -355,11 +382,19 @@ class OrderModule {
 				return reply.code(400).send({ message: "Order already delivered" });
 			}
 
+			const orderOwner = await this.User.findById(existingOrder.owner).exec();
+			if (!orderOwner) {
+				return reply.code(404).send({ message: "Order owner not found" });
+			}
 			const order = await this.Order.findByIdAndUpdate(id, {
 				rider: user_id.id,
 				status: "in progress",
 			});
-			emailOrder({});
+			emailOrder({
+				email: orderOwner.email,
+				nombre: orderOwner.name,
+				status: "in progress",
+			});
 			return reply.code(200).send({ message: "Rider asigned", order });
 		} catch (error) {
 			console.log(error);
@@ -370,7 +405,15 @@ class OrderModule {
 	async getOrderDetails(request: FastifyRequest, reply: FastifyReply) {
 		const { id } = request.params as { id: string };
 		try {
-			const order = await this.Order.findById(id).populate("location").exec();
+			const order = await await this.Order.findById(id)
+				.populate("location")
+				.populate("owner")
+				.populate("rider")
+				.populate("productsList");
+
+			if (!order) {
+				return reply.code(404).send({ message: "Order not found" });
+			}
 			return reply.code(200).send({ message: "Orden found", order });
 		} catch (error) {
 			console.log(error);
@@ -424,7 +467,11 @@ class OrderModule {
 	async getUserOrders(request: FastifyRequest, reply: FastifyReply) {
 		const { id } = request.params as { id: string };
 		try {
-			const userOrders = await this.Order.find({ owner: id });
+			const userOrders = await this.Order.find({ owner: id })
+				.populate("location")
+				.populate("owner")
+				.populate("rider")
+				.populate("productsList");
 			return reply.code(200).send(userOrders);
 		} catch (error) {
 			console.log(error);
