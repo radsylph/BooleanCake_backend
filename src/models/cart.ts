@@ -7,6 +7,12 @@ const ShoppingCartSchema = new mongoose.Schema<ShoppingCartInterface>({
 		required: true,
 		ref: "User",
 	},
+	productsList: {
+		type: [String],
+		required: true,
+		default: [],
+		refPath: "Product",
+	},
 	totalPrice: {
 		type: Number,
 		required: true,

@@ -55,6 +55,12 @@ const OrderSchema = new mongoose.Schema<OrderInterface>(
 			required: false,
 			default: "none",
 		},
+		productsList: {
+			type: [String],
+			required: true,
+			default: [],
+			refPath: "Product",
+		},
 	},
 	{
 		timestamps: true,

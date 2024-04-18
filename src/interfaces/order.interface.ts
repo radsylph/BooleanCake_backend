@@ -21,6 +21,7 @@ export interface OrderInterface {
 	isDelivery: boolean;
 	deliveryDate: Date;
 	deliveryHour: string;
+	productsList: string[];
 }
 
 export interface LocationInterface {
@@ -37,6 +38,8 @@ export interface OrderInterfaceExtended extends OrderInterface {
 	latitude: string;
 	longitude: string;
 	address: string;
+	cardNumber: string;
+	isFav: boolean;
 }
 
 export interface OrderRowInterface {

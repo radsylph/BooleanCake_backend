@@ -1,5 +1,6 @@
 export interface ShoppingCartInterface {
 	owner: string;
+	productsList: string[];
 	totalPrice: number;
 	totalItems: number;
 }
