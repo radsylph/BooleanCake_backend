@@ -16,7 +16,7 @@ import {
 
 import { execSync } from "child_process";
 import { decryptToken } from "../utils/generateToken";
-import { emailOrder, emailRegistro } from "../utils/mail";
+import { emailOrder, emailOrderCustom, emailRegistro } from "../utils/mail";
 //interface orderDocument extends Document, OrderInterface {}
 interface userDocument extends Document, UserInterface {}
 interface orderDocument extends Document, OrderInterface {}
@@ -116,6 +116,7 @@ class OrderModule {
 			// const productAdded = await this.Product.findByIdAndUpdate(product, {
 			// 	stock: existingProduct.stock - quantity,
 			// });
+
 			for (let i = 0; i < quantity; i++) {
 				await this.ShoppingCart.findByIdAndUpdate(existingCart._id, {
 					$push: {
@@ -151,7 +152,6 @@ class OrderModule {
 		const {
 			name,
 			category,
-			isPersonalized,
 			flavor,
 			capes,
 			size,
@@ -166,18 +166,39 @@ class OrderModule {
 			if (!existingUser) {
 				return reply.code(404).send({ message: "User not found" });
 			}
-			let existingCart = await this.ShoppingCart.findOne({
+			const newProduct = await this.Product.create({
+				name,
+				category,
+				flavor,
+				capes,
+				size,
+				decoration,
+				isPersonalized: true,
+				filling,
+				reference,
+				stock: 0,
+				price: 0,
+			});
+			await newProduct.save();
+			const createOrder = await this.Order.create({
 				owner: user_id.id,
-			}).exec();
-			
-			if (!existingCart) {
-				existingCart = await this.ShoppingCart.create({
-					owner: user_id.id,
-					totalPrice: 0,
-					totalItems: 1,
-				});
-				await existingCart.save();
-			}
+				status: "pending",
+				totalPrice: newProduct.price,
+				productsList: [newProduct._id],
+			});
+			await createOrder.save();
+
+			emailOrderCustom({
+				email: existingUser.email,
+				nombre: existingUser.name,
+				status: "pending",
+			});
+
+			return reply.code(201).send({
+				message: "Custom order created",
+				newProduct,
+				createOrder,
+			});
 		} catch (error) {
 			return reply
 				.code(500)
@@ -228,6 +249,7 @@ class OrderModule {
 			// const deletedCartProduct = await this.ShoppingCartRow.findByIdAndDelete(
 			// 	existingCartRow._id,
 			// ).exec();
+
 			const existingCartProducts = existingCart.productsList;
 			if (!existingCartProducts.includes(product)) {
 				return reply.code(404).send({ message: "Product not found in cart" });
@@ -345,6 +367,7 @@ class OrderModule {
 			const deletedCart = await this.ShoppingCart.findOneAndDelete(
 				user_id.id,
 			).exec();
+
 			const userInfo = await this.User.findById(user_id.id);
 			try {
 				emailOrder({
@@ -445,6 +468,7 @@ class OrderModule {
 				status,
 				rider: user_id.id,
 			});
+			
 			return reply.code(200).send({ message: "Order updated", order });
 		} catch (error) {
 			console.log(error);

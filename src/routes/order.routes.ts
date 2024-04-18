@@ -8,6 +8,7 @@ import {
 	addToCart,
 	assignRider,
 	buyCart,
+	createCustomOrder,
 	createOrder,
 	getAllOrders,
 	getCart,
@@ -82,6 +83,11 @@ function orderRouter(
 			method: "GET",
 			url: "/:id",
 			handler: getOrderDetails,
+		});
+		fastify.route({
+			method: "POST",
+			url: "/custom",
+			handler: createCustomOrder,
 		});
 		done();
 	});

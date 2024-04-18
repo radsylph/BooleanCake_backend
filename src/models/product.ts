@@ -20,6 +20,7 @@ const ProductsSchema = new mongoose.Schema<ProductsInterface>({
 	expireDate: {
 		type: Date,
 		required: true,
+		default: Date.now(),
 	},
 	category: {
 		type: String,
